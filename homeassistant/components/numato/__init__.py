@@ -11,7 +11,7 @@ from homeassistant.const import (
     CONF_SENSORS,
     CONF_SWITCHES,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     PERCENTAGE,
     Platform,
 )
@@ -158,7 +158,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     def prepare_gpio(event):
         """Stuff to do when home assistant starts."""
         _LOGGER.debug("Setup cleanup at stop for Numato GPIO")
-        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, cleanup_gpio)
+        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, cleanup_gpio)
 
     hass.bus.listen_once(EVENT_HOMEASSISTANT_START, prepare_gpio)
 

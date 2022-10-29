@@ -27,7 +27,7 @@ from homeassistant.const import (
     CONF_CLIENT_SECRET,
     CONF_WEBHOOK_ID,
     EVENT_HOMEASSISTANT_STARTED,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import CoreState, Event, HomeAssistant, ServiceCall
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
@@ -218,7 +218,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             _LOGGER.error("Error during webhook registration - %s", err)
         else:
             entry.async_on_unload(
-                hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, unregister_webhook)
+                hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, unregister_webhook)
             )
 
     async def manage_cloudhook(state: cloud.CloudConnectionState) -> None:

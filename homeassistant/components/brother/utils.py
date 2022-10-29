@@ -4,7 +4,7 @@ import logging
 import pysnmp.hlapi.asyncio as hlapi
 from pysnmp.hlapi.asyncio.cmdgen import lcd
 
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers import singleton
 
@@ -25,6 +25,6 @@ def get_snmp_engine(hass: HomeAssistant) -> hlapi.SnmpEngine:
             _LOGGER.debug("Unconfiguring SNMP engine")
             lcd.unconfigure(hass.data[DOMAIN][SNMP], None)
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, shutdown_listener)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, shutdown_listener)
 
     return snmp_engine

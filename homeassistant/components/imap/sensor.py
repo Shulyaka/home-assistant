@@ -14,7 +14,7 @@ from homeassistant.const import (
     CONF_PASSWORD,
     CONF_PORT,
     CONF_USERNAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import PlatformNotReady
@@ -67,7 +67,7 @@ async def async_setup_platform(
     if not await sensor.connection():
         raise PlatformNotReady
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, sensor.shutdown)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, sensor.shutdown)
     async_add_entities([sensor], True)
 
 

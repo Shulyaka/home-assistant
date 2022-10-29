@@ -16,7 +16,7 @@ from homeassistant import config_entries
 from homeassistant.components import ssdp
 from homeassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     MATCH_ALL,
 )
 from homeassistant.setup import async_setup_component
@@ -424,7 +424,7 @@ async def test_start_stop_scanner(mock_source_set, hass):
     assert ssdp_listener.async_search.call_count == 4
     assert ssdp_listener.async_stop.call_count == 0
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     async_fire_time_changed(hass, dt_util.utcnow() + timedelta(seconds=200))
     await hass.async_block_till_done()

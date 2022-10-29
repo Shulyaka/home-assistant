@@ -18,7 +18,7 @@ from homeassistant.const import (
     CONF_PATH,
     CONF_SSL,
     CONF_USERNAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     EVENT_STATE_CHANGED,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
@@ -184,7 +184,7 @@ class ZabbixThread(threading.Thread):
     def setup(self, hass):
         """Set up the thread and start it."""
         hass.bus.listen(EVENT_STATE_CHANGED, self._event_listener)
-        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, self._shutdown)
+        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self._shutdown)
         self.start()
         _LOGGER.debug("Started publishing state changes to Zabbix")
 

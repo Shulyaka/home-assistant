@@ -18,7 +18,7 @@ from homeassistant.components.media_player import (
     MediaType,
 )
 from homeassistant.const import (
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     SERVICE_MEDIA_NEXT_TRACK,
     SERVICE_MEDIA_PLAY,
     SERVICE_MEDIA_PLAY_PAUSE,
@@ -60,7 +60,7 @@ def setup_platform(
     def _stop_pianobar(_event):
         pandora.turn_off()
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, _stop_pianobar)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _stop_pianobar)
     add_entities([pandora])
 
 

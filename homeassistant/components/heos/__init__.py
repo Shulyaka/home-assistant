@@ -9,7 +9,7 @@ from pyheos import Heos, HeosError, const as heos_const
 import voluptuous as vol
 
 from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
-from homeassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP, Platform
+from homeassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, Platform
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError
 from homeassistant.helpers import device_registry as dr, entity_registry as er
@@ -97,7 +97,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await controller.disconnect()
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, disconnect_controller)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, disconnect_controller)
     )
 
     # Get players and sources

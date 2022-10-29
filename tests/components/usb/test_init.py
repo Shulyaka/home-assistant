@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, Mock, call, patch, sentinel
 import pytest
 
 from homeassistant.components import usb
-from homeassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.setup import async_setup_component
 
 from . import conbee_device, slae_sh_device
@@ -100,7 +100,7 @@ async def test_observer_discovery(hass, hass_ws_client, venv):
     assert len(mock_config_flow.mock_calls) == 1
     assert mock_config_flow.mock_calls[0][1][0] == "test1"
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
 
     assert mock_observer.mock_calls == [call.start(), call.stop()]
@@ -152,7 +152,7 @@ async def test_removal_by_observer_before_started(hass, operating_system):
 
     assert len(mock_config_flow.mock_calls) == 0
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
 
 

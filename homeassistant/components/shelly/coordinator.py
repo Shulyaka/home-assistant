@@ -12,7 +12,7 @@ from aioshelly.exceptions import DeviceConnectionError, InvalidAuthError, RpcCal
 from aioshelly.rpc_device import RpcDevice
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import ATTR_DEVICE_ID, CONF_HOST, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import ATTR_DEVICE_ID, CONF_HOST, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers import device_registry
 from homeassistant.helpers.debounce import Debouncer
@@ -112,7 +112,7 @@ class ShellyBlockCoordinator(DataUpdateCoordinator):
         self._last_input_events_count: dict = {}
 
         entry.async_on_unload(
-            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self._handle_ha_stop)
+            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self._handle_ha_stop)
         )
 
     async def _async_reload_entry(self) -> None:
@@ -352,7 +352,7 @@ class ShellyRpcCoordinator(DataUpdateCoordinator):
         self._last_event: dict[str, Any] | None = None
 
         entry.async_on_unload(
-            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self._handle_ha_stop)
+            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self._handle_ha_stop)
         )
 
     async def _async_reload_entry(self) -> None:

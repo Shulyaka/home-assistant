@@ -10,7 +10,7 @@ from pywizlight import PilotParser, wizlight
 from pywizlight.bulb import PIR_SOURCE
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP, Platform
+from homeassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, Platform
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.debounce import Debouncer
@@ -116,7 +116,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await bulb.async_close()
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _async_shutdown_on_stop)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _async_shutdown_on_stop)
     )
 
     @callback

@@ -20,7 +20,7 @@ import voluptuous as vol
 from yarl import URL
 
 from homeassistant.components.network import async_get_source_ip
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP, SERVER_PORT
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, SERVER_PORT
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import storage
@@ -196,7 +196,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     async def start_server(*_: Any) -> None:
         """Start the server."""
         with async_start_setup(hass, ["http"]):
-            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_server)
+            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_server)
             # We already checked it's not None.
             assert conf is not None
             await start_http_server_and_save_config(hass, dict(conf), server)

@@ -22,7 +22,7 @@ from homeassistant import config_entries
 from homeassistant.components import network
 from homeassistant.components.network import MDNS_TARGET_IP, async_get_source_ip
 from homeassistant.components.network.models import Adapter
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP, __version__
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, __version__
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.data_entry_flow import BaseServiceInfo
 from homeassistant.helpers import discovery_flow, instance_id
@@ -133,7 +133,7 @@ async def _async_get_instance(hass: HomeAssistant, **zcargs: Any) -> HaAsyncZero
         """Stop Zeroconf."""
         await aio_zc.ha_async_close()
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _async_stop_zeroconf)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _async_stop_zeroconf)
     hass.data[DOMAIN] = aio_zc
 
     return aio_zc
@@ -202,7 +202,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     async def _async_zeroconf_hass_stop(_event: Event) -> None:
         await discovery.async_stop()
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _async_zeroconf_hass_stop)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _async_zeroconf_hass_stop)
     async_when_setup_or_start(hass, "frontend", _async_zeroconf_hass_start)
 
     return True

@@ -21,7 +21,7 @@ from homeassistant.components.recorder.util import (
     is_second_sunday,
     session_scope,
 )
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.util import dt as dt_util
 
@@ -134,7 +134,7 @@ async def test_last_run_was_recently_clean(
         last_run_was_recently_clean_mock.assert_not_called()
 
     # Restart HA, last_run_was_recently_clean should return True
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     await hass.async_stop()
 
@@ -148,7 +148,7 @@ async def test_last_run_was_recently_clean(
         assert return_values[-1] is True
 
     # Restart HA with a long downtime, last_run_was_recently_clean should return False
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     await hass.async_stop()
 
@@ -166,7 +166,7 @@ async def test_last_run_was_recently_clean(
         last_run_was_recently_clean_mock.assert_called_once()
         assert return_values[-1] is False
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     await hass.async_stop()
 

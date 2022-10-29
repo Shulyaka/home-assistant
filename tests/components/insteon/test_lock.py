@@ -14,7 +14,7 @@ from homeassistant.components.lock import (  # SERVICE_LOCK,; SERVICE_UNLOCK,
     DOMAIN as LOCK_DOMAIN,
 )
 from homeassistant.const import (  # ATTR_ENTITY_ID,;
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     STATE_LOCKED,
     STATE_UNLOCKED,
     Platform,
@@ -78,7 +78,7 @@ async def test_lock_lock(hass):
         )
         assert devices["55.55.55"].async_lock.call_count == 1
     finally:
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
 
 
@@ -105,5 +105,5 @@ async def test_lock_unlock(hass):
         )
         assert devices["55.55.55"].async_unlock.call_count == 1
     finally:
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()

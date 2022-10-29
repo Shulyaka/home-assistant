@@ -25,7 +25,7 @@ from homeassistant.const import (
     CONF_PROTOCOL,
     CONF_USERNAME,
     EVENT_HOMEASSISTANT_STARTED,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import (
     CALLBACK_TYPE,
@@ -364,7 +364,7 @@ class MQTT:
             await self.async_disconnect()
 
         self._cleanup_on_unload.append(
-            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, async_stop_mqtt)
+            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, async_stop_mqtt)
         )
 
     def cleanup(self) -> None:

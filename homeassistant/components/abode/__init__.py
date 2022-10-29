@@ -18,7 +18,7 @@ from homeassistant.const import (
     ATTR_TIME,
     CONF_PASSWORD,
     CONF_USERNAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import Event, HomeAssistant, ServiceCall
@@ -198,7 +198,7 @@ async def setup_hass_events(hass: HomeAssistant) -> None:
         await hass.async_add_executor_job(hass.data[DOMAIN].abode.events.start)
 
     hass.data[DOMAIN].logout_listener = hass.bus.async_listen_once(
-        EVENT_HOMEASSISTANT_STOP, logout
+        EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, logout
     )
 
 

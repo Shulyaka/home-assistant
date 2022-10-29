@@ -14,7 +14,7 @@ from fritzconnection.core.fritzmonitor import FritzMonitor
 from homeassistant.backports.enum import StrEnum
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -117,7 +117,7 @@ class FritzBoxCallSensor(SensorEntity):
         await self.hass.async_add_executor_job(self._start_call_monitor)
         self.async_on_remove(
             self.hass.bus.async_listen_once(
-                EVENT_HOMEASSISTANT_STOP, self._stop_call_monitor
+                EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self._stop_call_monitor
             )
         )
 

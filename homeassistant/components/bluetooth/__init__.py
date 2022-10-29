@@ -16,7 +16,7 @@ from homeassistant.config_entries import (
     SOURCE_INTEGRATION_DISCOVERY,
     ConfigEntry,
 )
-from homeassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import CALLBACK_TYPE, HomeAssistant, callback as hass_callback
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers import device_registry as dr, discovery_flow
@@ -284,7 +284,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     integration_matcher.async_setup()
     manager = BluetoothManager(hass, integration_matcher)
     await manager.async_setup()
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, manager.async_stop)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, manager.async_stop)
     hass.data[DATA_MANAGER] = models.MANAGER = manager
     adapters = await manager.async_get_bluetooth_adapters()
 
@@ -313,7 +313,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
     cancel = usb.async_register_scan_request_callback(hass, _async_trigger_discovery)
     hass.bus.async_listen_once(
-        EVENT_HOMEASSISTANT_STOP, hass_callback(lambda event: cancel())
+        EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, hass_callback(lambda event: cancel())
     )
 
     # Wait to check until after start to make sure

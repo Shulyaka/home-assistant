@@ -4,7 +4,7 @@ from __future__ import annotations
 from aioslimproto import SlimServer
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, Platform
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.helpers import device_registry as dr
 
@@ -29,7 +29,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await slimserver.stop()
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, on_hass_stop)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, on_hass_stop)
     )
 
     return True

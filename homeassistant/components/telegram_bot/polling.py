@@ -5,7 +5,7 @@ from telegram import Update
 from telegram.error import NetworkError, RetryAfter, TelegramError, TimedOut
 from telegram.ext import CallbackContext, TypeHandler, Updater
 
-from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 
 from . import BaseTelegramBotEntity
 
@@ -17,7 +17,7 @@ async def async_setup_platform(hass, bot, config):
     pollbot = PollBot(hass, bot, config)
 
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_START, pollbot.start_polling)
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, pollbot.stop_polling)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, pollbot.stop_polling)
 
     return True
 

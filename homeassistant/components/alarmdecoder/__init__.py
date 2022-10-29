@@ -11,7 +11,7 @@ from homeassistant.const import (
     CONF_HOST,
     CONF_PORT,
     CONF_PROTOCOL,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant
@@ -118,7 +118,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     controller.on_expander_message += handle_rel_message
 
     remove_stop_listener = hass.bus.async_listen_once(
-        EVENT_HOMEASSISTANT_STOP, stop_alarmdecoder
+        EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_alarmdecoder
     )
 
     hass.data.setdefault(DOMAIN, {})

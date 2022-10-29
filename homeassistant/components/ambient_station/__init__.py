@@ -12,7 +12,7 @@ from homeassistant.const import (
     ATTR_LOCATION,
     ATTR_NAME,
     CONF_API_KEY,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import Event, HomeAssistant, callback
@@ -85,7 +85,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     entry.async_on_unload(
         hass.bus.async_listen_once(
-            EVENT_HOMEASSISTANT_STOP, _async_disconnect_websocket
+            EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _async_disconnect_websocket
         )
     )
 

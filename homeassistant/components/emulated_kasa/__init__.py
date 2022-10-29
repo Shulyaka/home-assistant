@@ -10,7 +10,7 @@ from homeassistant.const import (
     CONF_NAME,
     CONF_UNIQUE_ID,
     EVENT_HOMEASSISTANT_STARTED,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     STATE_ON,
 )
 from homeassistant.core import HomeAssistant
@@ -70,7 +70,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         except OSError as error:
             _LOGGER.error("Failed to create UDP server at port 9999: %s", error)
         else:
-            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_emulated_kasa)
+            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_emulated_kasa)
 
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STARTED, start_emulated_kasa)
 

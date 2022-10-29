@@ -11,7 +11,7 @@ from homeassistant.const import (
     CONF_PORT,
     CONF_SENSORS,
     CONF_TEMPERATURE_UNIT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     TIME_HOURS,
     TIME_MINUTES,
     TIME_SECONDS,
@@ -127,7 +127,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         """Close the Monitors object."""
         await monitors.close()
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, close_monitors)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, close_monitors)
 
     num_sensors = 0
     for monitor_config in config[DOMAIN][CONF_MONITORS]:

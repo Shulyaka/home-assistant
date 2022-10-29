@@ -12,7 +12,7 @@ from aiogithubapi import (
     GitHubResponseModel,
 )
 
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
@@ -157,7 +157,7 @@ class GitHubDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             event_callback=self._handle_event,
             error_callback=self._handle_error,
         )
-        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self.unsubscribe)
+        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.unsubscribe)
 
     def unsubscribe(self, *args) -> None:
         """Unsubscribe to repository events."""

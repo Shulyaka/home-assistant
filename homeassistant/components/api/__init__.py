@@ -12,7 +12,7 @@ from homeassistant.auth.permissions.const import POLICY_READ
 from homeassistant.bootstrap import DATA_LOGGING
 from homeassistant.components.http import HomeAssistantView
 from homeassistant.const import (
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     MATCH_ALL,
     URL_API,
     URL_API_COMPONENTS,
@@ -95,7 +95,7 @@ class APIEventStream(HomeAssistantView):
         to_write = asyncio.Queue()
 
         if restrict := request.query.get("restrict"):
-            restrict = restrict.split(",") + [EVENT_HOMEASSISTANT_STOP]
+            restrict = restrict.split(",") + [EVENT_HOMEASSISTANT_STOP_INTEGRATIONS]
 
         async def forward_events(event):
             """Forward events to the open request."""
@@ -104,7 +104,7 @@ class APIEventStream(HomeAssistantView):
 
             _LOGGER.debug("STREAM %s FORWARDING %s", id(stop_obj), event)
 
-            if event.event_type == EVENT_HOMEASSISTANT_STOP:
+            if event.event_type == EVENT_HOMEASSISTANT_STOP_INTEGRATIONS:
                 data = stop_obj
             else:
                 data = json_dumps(event)

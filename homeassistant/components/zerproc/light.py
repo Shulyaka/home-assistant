@@ -14,7 +14,7 @@ from homeassistant.components.light import (
     LightEntity,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -90,11 +90,11 @@ class ZerprocLight(LightEntity):
     async def async_added_to_hass(self) -> None:
         """Run when entity about to be added to hass."""
         self.async_on_remove(
-            self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self._hass_stop)
+            self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self._hass_stop)
         )
 
     async def _hass_stop(self, event: Event) -> None:
-        """Run on EVENT_HOMEASSISTANT_STOP."""
+        """Run on EVENT_HOMEASSISTANT_STOP_INTEGRATIONS."""
         await self.async_will_remove_from_hass()
 
     async def async_will_remove_from_hass(self) -> None:

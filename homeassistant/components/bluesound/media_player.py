@@ -33,7 +33,7 @@ from homeassistant.const import (
     CONF_NAME,
     CONF_PORT,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant, ServiceCall, callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -131,7 +131,7 @@ def _add_player(hass, async_add_entities, host, port=None, name=None):
         else:
             hass.bus.async_listen_once(EVENT_HOMEASSISTANT_START, _start_polling)
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _stop_polling)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _stop_polling)
 
     player = BluesoundPlayer(hass, host, port, name, _add_player_cb)
 

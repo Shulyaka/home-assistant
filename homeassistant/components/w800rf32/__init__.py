@@ -7,7 +7,7 @@ import voluptuous as vol
 from homeassistant.const import (
     CONF_DEVICE,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
@@ -55,7 +55,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
         """Close connection with w800rf32."""
         w800_object.close_connection()
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, _shutdown_w800rf32)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _shutdown_w800rf32)
 
     hass.data[DATA_W800RF32] = w800_object
 

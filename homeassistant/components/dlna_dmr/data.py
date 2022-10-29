@@ -10,7 +10,7 @@ from async_upnp_client.client import UpnpRequester
 from async_upnp_client.client_factory import UpnpFactory
 from async_upnp_client.event_handler import UpnpEventHandler
 
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import CALLBACK_TYPE, Event, HomeAssistant
 from homeassistant.helpers import aiohttp_client
 
@@ -69,7 +69,7 @@ class DlnaDmrData:
             # Stop all servers when HA shuts down, to release resources on devices
             if not self.stop_listener_remove:
                 self.stop_listener_remove = hass.bus.async_listen_once(
-                    EVENT_HOMEASSISTANT_STOP, self.async_cleanup_event_notifiers
+                    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.async_cleanup_event_notifiers
                 )
 
             # Always increment the reference counter, for existing or new event handlers

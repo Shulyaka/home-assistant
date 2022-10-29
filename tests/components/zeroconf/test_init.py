@@ -16,7 +16,7 @@ from homeassistant.const import (
     EVENT_COMPONENT_LOADED,
     EVENT_HOMEASSISTANT_START,
     EVENT_HOMEASSISTANT_STARTED,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.generated import zeroconf as zc_gen
 from homeassistant.setup import ATTR_COMPONENT, async_setup_component
@@ -861,7 +861,7 @@ async def test_get_instance(hass, mock_async_zeroconf):
     assert (
         await hass.components.zeroconf.async_get_async_instance() is mock_async_zeroconf
     )
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     assert len(mock_async_zeroconf.ha_async_close.mock_calls) == 1
 

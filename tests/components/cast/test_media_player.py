@@ -25,7 +25,7 @@ from homeassistant.config import async_process_ha_core_config
 from homeassistant.const import (
     ATTR_ENTITY_ID,
     CAST_APP_ID_HOMEASSISTANT_LOVELACE,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
@@ -441,7 +441,7 @@ async def test_stop_discovery_called_on_stop(hass, castbrowser_mock):
     assert castbrowser_mock.return_value.start_discovery.call_count == 1
 
     # stop discovery should be called on shutdown
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     assert castbrowser_mock.return_value.stop_discovery.call_count == 1
 
@@ -1941,7 +1941,7 @@ async def test_disconnect_on_stop(hass: HomeAssistant):
 
     chromecast, _ = await async_setup_media_player_cast(hass, info)
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     assert chromecast.disconnect.call_count == 1
 

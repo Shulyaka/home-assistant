@@ -14,7 +14,7 @@ from homeassistant.const import (
     ATTR_STATE,
     CONF_HOST,
     CONF_SCAN_INTERVAL,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant, ServiceCall
@@ -107,7 +107,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     async def _close(event):
         await client.close()
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _close)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _close)
 
     hass.async_create_task(
         async_load_platform(

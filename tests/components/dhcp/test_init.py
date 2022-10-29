@@ -21,7 +21,7 @@ from homeassistant.components.device_tracker import (
 from homeassistant.components.dhcp.const import DOMAIN
 from homeassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     STATE_HOME,
     STATE_NOT_HOME,
 )
@@ -513,7 +513,7 @@ async def test_setup_and_stop(hass):
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
 
     start_call.assert_called_once()
@@ -538,7 +538,7 @@ async def test_setup_fails_as_root(hass, caplog):
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     wait_event.set()
     assert "Cannot watch for dhcp packets" in caplog.text
@@ -560,7 +560,7 @@ async def test_setup_fails_non_root(hass, caplog):
     ), patch("homeassistant.components.dhcp.DiscoverHosts.async_discover"):
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
 
     assert "Cannot watch for dhcp packets without root or CAP_NET_RAW" in caplog.text
@@ -584,7 +584,7 @@ async def test_setup_fails_with_broken_libpcap(hass, caplog):
     ):
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
 
     assert compile_filter.called

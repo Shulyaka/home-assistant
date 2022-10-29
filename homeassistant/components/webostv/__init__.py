@@ -17,7 +17,7 @@ from homeassistant.const import (
     CONF_CLIENT_SECRET,
     CONF_HOST,
     CONF_NAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import (
     Context,
@@ -126,7 +126,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await wrapper.shutdown()
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, async_on_stop)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, async_on_stop)
     )
     return True
 

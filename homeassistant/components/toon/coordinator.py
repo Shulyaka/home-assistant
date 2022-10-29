@@ -12,7 +12,7 @@ from homeassistant.components.webhook import (
     async_unregister as webhook_unregister,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_WEBHOOK_ID, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_WEBHOOK_ID, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.config_entry_oauth2_flow import OAuth2Session
@@ -94,7 +94,7 @@ class ToonDataUpdateCoordinator(DataUpdateCoordinator[Status]):
             _LOGGER.error("Error during webhook registration - %s", err)
 
         self.hass.bus.async_listen_once(
-            EVENT_HOMEASSISTANT_STOP, self.unregister_webhook
+            EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.unregister_webhook
         )
 
     async def handle_webhook(

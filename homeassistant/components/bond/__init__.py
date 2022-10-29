@@ -11,7 +11,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_ACCESS_TOKEN,
     CONF_HOST,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant, callback
@@ -68,7 +68,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     entry.async_on_unload(_async_stop_event)
     entry.async_on_unload(
-        hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP, _async_stop_event)
+        hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _async_stop_event)
     )
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = BondData(hub, bpup_subs)
 

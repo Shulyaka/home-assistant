@@ -19,7 +19,7 @@ from homeassistant.const import (
     CONF_CLIENT_SECRET,
     CONF_MONITORED_CONDITIONS,
     CONF_SENSORS,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant, ServiceCall
@@ -229,7 +229,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await logi_circle.auth_provider.close()
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, shut_down)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, shut_down)
     )
 
     return True

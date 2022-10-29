@@ -9,7 +9,7 @@ import aionotify
 from evdev import InputDevice, categorize, ecodes, list_devices
 import voluptuous as vol
 
-from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.typing import ConfigType
@@ -100,7 +100,7 @@ class KeyboardRemote:
             EVENT_HOMEASSISTANT_START, self.async_start_monitoring
         )
         self.hass.bus.async_listen_once(
-            EVENT_HOMEASSISTANT_STOP, self.async_stop_monitoring
+            EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.async_stop_monitoring
         )
 
     async def async_start_monitoring(self, event):

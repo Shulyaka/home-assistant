@@ -14,7 +14,7 @@ from homeassistant.components.hassio import HassioServiceInfo
 from homeassistant.const import (
     EVENT_COMPONENT_LOADED,
     EVENT_HOMEASSISTANT_STARTED,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import CoreState, Event, HomeAssistant, callback
 from homeassistant.data_entry_flow import BaseServiceInfo, FlowResult, FlowResultType
@@ -3004,7 +3004,7 @@ async def test_initialize_and_shutdown(hass):
 
     with patch.object(manager, "_async_shutdown") as mock_async_shutdown:
         await manager.async_initialize()
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
 
     assert mock_async_shutdown.called
@@ -3024,7 +3024,7 @@ async def test_setup_retrying_during_shutdown(hass):
     assert entry.state is config_entries.ConfigEntryState.SETUP_RETRY
     assert len(mock_call.return_value.mock_calls) == 0
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
 
     assert len(mock_call.return_value.mock_calls) == 0

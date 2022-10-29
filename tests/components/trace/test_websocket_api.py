@@ -8,7 +8,7 @@ import pytest
 
 from homeassistant.bootstrap import async_setup_component
 from homeassistant.components.trace.const import DEFAULT_STORED_TRACES
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Context, CoreState, callback
 from homeassistant.helpers.typing import UNDEFINED
 from homeassistant.util.uuid import random_uuid_hex
@@ -404,7 +404,7 @@ async def test_get_trace(
 
     # Fake stop
     assert "trace.saved_traces" not in hass_storage
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
 
     # Check that saved data is same as the serialized traces
@@ -472,7 +472,7 @@ async def test_restore_traces(hass, hass_storage, hass_ws_client, domain):
     # Fake stop
     hass_storage.pop("trace.saved_traces")
     assert "trace.saved_traces" not in hass_storage
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
 
     # Check that saved data is same as the serialized traces

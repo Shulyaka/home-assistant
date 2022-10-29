@@ -21,7 +21,7 @@ from homeassistant.const import (
     CONF_NAME,
     CONF_SENSORS,
     CONF_TYPE,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     PERCENTAGE,
     TEMP_CELSIUS,
 )
@@ -92,7 +92,7 @@ def setup_platform(
         _LOGGER.warning("Unable to open serial port: %s", exc)
         return
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, lambda event: lacrosse.close())
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, lambda event: lacrosse.close())
 
     if CONF_JEELINK_LED in config:
         lacrosse.led_mode_state(config.get(CONF_JEELINK_LED))

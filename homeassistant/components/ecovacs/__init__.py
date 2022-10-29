@@ -9,7 +9,7 @@ import voluptuous as vol
 from homeassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant
@@ -90,7 +90,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
             device.disconnect()
 
     # Listen for HA stop to disconnect.
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, stop)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop)
 
     if hass.data[ECOVACS_DEVICES]:
         _LOGGER.debug("Starting vacuum components")

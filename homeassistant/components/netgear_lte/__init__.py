@@ -15,7 +15,7 @@ from homeassistant.const import (
     CONF_NAME,
     CONF_PASSWORD,
     CONF_RECIPIENT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant, ServiceCall, callback
@@ -285,7 +285,7 @@ async def _setup_lte(hass, lte_config):
             if not retry_task.done():
                 retry_task.cancel()
 
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, cleanup_retry)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, cleanup_retry)
 
 
 async def _login(hass, modem_data, password):
@@ -319,7 +319,7 @@ async def _login(hass, modem_data, password):
         await modem_data.modem.logout()
         del hass.data[DATA_KEY].modem_data[modem_data.host]
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, cleanup)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, cleanup)
 
 
 async def _retry_login(hass, modem_data, password):

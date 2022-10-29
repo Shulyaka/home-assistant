@@ -4,7 +4,7 @@ from unittest.mock import AsyncMock, patch
 
 from homeassistant import config_entries
 from homeassistant.components.wiz.const import DOMAIN
-from homeassistant.const import ATTR_FRIENDLY_NAME, CONF_HOST, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import ATTR_FRIENDLY_NAME, CONF_HOST, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.setup import async_setup_component
 from homeassistant.util.dt import utcnow
@@ -41,7 +41,7 @@ async def test_cleanup_on_shutdown(hass: HomeAssistant) -> None:
     bulb = _mocked_wizlight(None, None, FAKE_SOCKET)
     _, entry = await async_setup_integration(hass, wizlight=bulb)
     assert entry.state is config_entries.ConfigEntryState.LOADED
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     bulb.async_close.assert_called_once()
 

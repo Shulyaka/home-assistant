@@ -14,7 +14,7 @@ import voluptuous as vol
 
 from homeassistant.components.http import HomeAssistantView
 from homeassistant.components.http.data_validator import RequestDataValidator
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.util import raise_if_invalid_filename
@@ -83,7 +83,7 @@ class FileUploadData:
             """Clean up unused files."""
             shutil.rmtree(temp_dir)
 
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, cleanup_unused_files)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, cleanup_unused_files)
 
         return cls(temp_dir, {})
 

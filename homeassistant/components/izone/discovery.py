@@ -1,7 +1,7 @@
 """Internal discovery service for  iZone AC."""
 import pizone
 
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import aiohttp_client
 from homeassistant.helpers.dispatcher import async_dispatcher_send
@@ -65,7 +65,7 @@ async def async_start_discovery_service(hass: HomeAssistant):
     async def shutdown_event(event):
         await async_stop_discovery_service(hass)
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, shutdown_event)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, shutdown_event)
 
     return disco
 

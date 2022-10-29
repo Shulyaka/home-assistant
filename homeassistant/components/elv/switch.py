@@ -8,7 +8,7 @@ import pypca
 from serial import SerialException
 
 from homeassistant.components.switch import SwitchEntity
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -42,7 +42,7 @@ def setup_platform(
         _LOGGER.warning("Unable to open serial port: %s", exc)
         return
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, pca.close)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, pca.close)
 
     pca.start_scan()
 

@@ -21,7 +21,7 @@ from homeassistant.const import (
     CONF_PASSWORD,
     CONF_TIMEOUT,
     CONF_USERNAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
@@ -105,7 +105,7 @@ def setup_scanner(
         aprs_listener.stop()
 
     aprs_listener.start()
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, aprs_disconnect)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, aprs_disconnect)
 
     if not aprs_listener.start_event.wait(timeout):
         _LOGGER.error("Timeout waiting for APRS to connect")

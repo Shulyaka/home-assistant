@@ -8,7 +8,7 @@ from aioswitcher.device import SwitcherBase
 import voluptuous as vol
 
 from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
-from homeassistant.const import CONF_DEVICE_ID, EVENT_HOMEASSISTANT_STOP, Platform
+from homeassistant.const import CONF_DEVICE_ID, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, Platform
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers import (
     config_validation as cv,
@@ -110,7 +110,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await async_stop_bridge(hass)
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_bridge)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_bridge)
     )
 
     return True

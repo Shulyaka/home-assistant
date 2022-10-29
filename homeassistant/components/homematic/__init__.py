@@ -20,7 +20,7 @@ from homeassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
     CONF_VERIFY_SSL,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.helpers import discovery
@@ -255,7 +255,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     homematic.start()
 
     # Stops server when Home Assistant is shutting down
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, hass.data[DATA_HOMEMATIC].stop)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, hass.data[DATA_HOMEMATIC].stop)
 
     # Init homematic hubs
     entity_hubs = []

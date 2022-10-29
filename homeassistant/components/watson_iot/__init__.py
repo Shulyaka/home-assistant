@@ -16,7 +16,7 @@ from homeassistant.const import (
     CONF_INCLUDE,
     CONF_TOKEN,
     CONF_TYPE,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     EVENT_STATE_CHANGED,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
@@ -148,7 +148,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
         instance.queue.put(None)
         instance.join()
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, shutdown)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, shutdown)
 
     return True
 

@@ -15,7 +15,7 @@ from homeassistant.const import (
     CONF_PIN,
     CONF_SENSORS,
     CONF_SWITCHES,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import config_validation as cv, device_registry as dr
@@ -184,7 +184,7 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> b
             await board.async_reset()
 
     config_entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, handle_shutdown)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, handle_shutdown)
     )
 
     device_registry = dr.async_get(hass)

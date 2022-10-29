@@ -10,7 +10,7 @@ import pytest
 import requests
 
 from homeassistant import config_entries
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import CoreState
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers import update_coordinator
@@ -348,7 +348,7 @@ async def test_stop_refresh_on_ha_stop(hass, crd):
     assert crd.data == 1
 
     # Fire Home Assistant stop event
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     hass.state = CoreState.stopping
     await hass.async_block_till_done()
 

@@ -7,7 +7,7 @@ import pytest
 from homeassistant.components import cloud
 from homeassistant.components.cloud.const import DOMAIN
 from homeassistant.components.cloud.prefs import STORAGE_KEY
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Context
 from homeassistant.exceptions import Unauthorized
 from homeassistant.setup import async_setup_component
@@ -99,7 +99,7 @@ async def test_remote_services(hass, mock_cloud_fixture, hass_read_only_user):
 async def test_startup_shutdown_events(hass, mock_cloud_fixture):
     """Test if the cloud will start on startup event."""
     with patch("hass_nabucasa.Cloud.stop") as mock_stop:
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
 
     assert mock_stop.called

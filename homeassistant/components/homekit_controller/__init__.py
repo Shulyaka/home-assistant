@@ -13,7 +13,7 @@ from aiohomekit.exceptions import (
 )
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import ATTR_IDENTIFIERS, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import ATTR_IDENTIFIERS, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers import device_registry as dr
@@ -69,7 +69,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
             )
         )
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _async_stop_homekit_controller)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _async_stop_homekit_controller)
 
     return True
 

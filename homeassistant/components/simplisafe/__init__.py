@@ -52,7 +52,7 @@ from homeassistant.const import (
     CONF_CODE,
     CONF_TOKEN,
     CONF_USERNAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import CoreState, Event, HomeAssistant, ServiceCall, callback
@@ -595,7 +595,7 @@ class SimpliSafe:
 
         self.entry.async_on_unload(
             self._hass.bus.async_listen_once(
-                EVENT_HOMEASSISTANT_STOP, async_websocket_disconnect_listener
+                EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, async_websocket_disconnect_listener
             )
         )
 

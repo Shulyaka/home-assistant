@@ -9,7 +9,7 @@ from homeassistant.const import (
     CONF_NAME,
     CONF_PIN,
     CONF_TOKEN,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant
@@ -80,7 +80,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     def _shutdown(_event):
         ccb.disconnect()
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, _shutdown)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _shutdown)
 
     # Load platforms
     discovery.load_platform(hass, Platform.FAN, DOMAIN, {}, config)

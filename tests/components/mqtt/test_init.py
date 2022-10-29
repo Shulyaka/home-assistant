@@ -20,7 +20,7 @@ from homeassistant.config_entries import ConfigEntryDisabler, ConfigEntryState
 from homeassistant.const import (
     ATTR_ASSUMED_STATE,
     EVENT_HOMEASSISTANT_STARTED,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     TEMP_CELSIUS,
     Platform,
 )
@@ -135,7 +135,7 @@ async def test_mqtt_disconnects_on_home_assistant_stop(
 ):
     """Test if client stops on HA stop."""
     await mqtt_mock_entry_no_yaml_config()
-    hass.bus.fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     await hass.async_block_till_done()
     assert mqtt_client_mock.loop_stop.call_count == 1

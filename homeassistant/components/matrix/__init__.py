@@ -14,7 +14,7 @@ from homeassistant.const import (
     CONF_USERNAME,
     CONF_VERIFY_SSL,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.exceptions import HomeAssistantError
@@ -187,7 +187,7 @@ class MatrixBot:
             """Run once when Home Assistant stops."""
             self._client.stop_listener_thread()
 
-        self.hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, stop_client)
+        self.hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_client)
 
         # Joining rooms potentially does a lot of I/O, so we defer it
         def handle_startup(_):

@@ -8,7 +8,7 @@ import subprocess
 from tempfile import NamedTemporaryFile
 
 from homeassistant.components.camera import Camera
-from homeassistant.const import CONF_FILE_PATH, CONF_NAME, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_FILE_PATH, CONF_NAME, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType
@@ -53,7 +53,7 @@ def setup_platform(
         _LOGGER.error("'raspistill' was not found")
         return
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, kill_raspistill)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, kill_raspistill)
 
     setup_config = hass.data[DOMAIN]
     file_path = setup_config[CONF_FILE_PATH]
@@ -70,7 +70,7 @@ def setup_platform(
         with NamedTemporaryFile(suffix=".jpg", delete=False) as temp_file:
             file_path = temp_file.name
         setup_config[CONF_FILE_PATH] = file_path
-        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, delete_temp_file)
+        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, delete_temp_file)
 
     # Check whether the file path has been whitelisted
     elif not hass.config.is_allowed_path(file_path):

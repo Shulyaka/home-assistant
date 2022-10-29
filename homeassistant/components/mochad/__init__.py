@@ -9,7 +9,7 @@ from homeassistant.const import (
     CONF_HOST,
     CONF_PORT,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
@@ -54,7 +54,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
     def start_mochad(event):
         """Start the Mochad service."""
-        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, stop_mochad)
+        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_mochad)
 
     hass.bus.listen_once(EVENT_HOMEASSISTANT_START, start_mochad)
     hass.data[DOMAIN] = mochad_controller

@@ -14,7 +14,7 @@ from homeassistant.const import (
     CONF_PREFIX,
     CONF_PROTOCOL,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     EVENT_STATE_CHANGED,
 )
 from homeassistant.core import HomeAssistant
@@ -90,7 +90,7 @@ class GraphiteFeeder(threading.Thread):
         self._we_started = False
 
         hass.bus.listen_once(EVENT_HOMEASSISTANT_START, self.start_listen)
-        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, self.shutdown)
+        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.shutdown)
         hass.bus.listen(EVENT_STATE_CHANGED, self.event_listener)
         _LOGGER.debug("Graphite feeding to %s:%i initialized", self._host, self._port)
 

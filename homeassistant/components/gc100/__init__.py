@@ -2,7 +2,7 @@
 import gc100
 import voluptuous as vol
 
-from homeassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.typing import ConfigType
@@ -39,7 +39,7 @@ def setup(hass: HomeAssistant, base_config: ConfigType) -> bool:
         """Stuff to do before stopping."""
         gc_device.quit()
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, cleanup_gc100)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, cleanup_gc100)
 
     hass.data[DATA_GC100] = GC100Device(hass, gc_device)
 

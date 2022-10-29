@@ -12,7 +12,7 @@ from homeassistant.components.device_tracker import (
     PLATFORM_SCHEMA as PARENT_PLATFORM_SCHEMA,
     DeviceScanner,
 )
-from homeassistant.const import CONF_HOST, CONF_PASSWORD, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_HOST, CONF_PASSWORD, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 import homeassistant.helpers.config_validation as cv
@@ -51,7 +51,7 @@ async def async_get_scanner(
         """Shutdown event."""
         await connect_box.async_close_session()
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _shutdown)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _shutdown)
 
     return UPCDeviceScanner(connect_box)
 

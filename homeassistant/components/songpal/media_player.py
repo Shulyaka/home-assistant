@@ -22,7 +22,7 @@ from homeassistant.components.media_player import (
     MediaPlayerState,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_NAME, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_NAME, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import PlatformNotReady
 from homeassistant.helpers import (
@@ -192,7 +192,7 @@ class SongpalEntity(MediaPlayerEntity):
         async def handle_stop(event):
             await self._dev.stop_listen_notifications()
 
-        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, handle_stop)
+        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, handle_stop)
 
         self.hass.loop.create_task(self._dev.listen_notifications())
 

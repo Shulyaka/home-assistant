@@ -15,7 +15,7 @@ import requests.exceptions
 
 from homeassistant.components.media_player import DOMAIN as MP_DOMAIN, BrowseError
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_URL, CONF_VERIFY_SSL, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_URL, CONF_VERIFY_SSL, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import device_registry as dev_reg, entity_registry as ent_reg
@@ -224,7 +224,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         websocket.close()
 
     unsub = hass.bus.async_listen_once(
-        EVENT_HOMEASSISTANT_STOP, close_websocket_session
+        EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, close_websocket_session
     )
     hass.data[DOMAIN][DISPATCHERS][server_id].append(unsub)
 

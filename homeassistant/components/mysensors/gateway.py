@@ -19,7 +19,7 @@ from homeassistant.components.mqtt import (
     ReceivePayloadType,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant, callback
 import homeassistant.helpers.config_validation as cv
 from homeassistant.util.unit_system import METRIC_SYSTEM
@@ -292,7 +292,7 @@ async def _gw_start(
     on_unload(
         hass,
         entry.entry_id,
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_this_gw),
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_this_gw),
     )
 
     if entry.data[CONF_DEVICE] == MQTT_COMPONENT:

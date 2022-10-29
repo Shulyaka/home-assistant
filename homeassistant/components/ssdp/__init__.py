@@ -42,7 +42,7 @@ from async_upnp_client.utils import CaseInsensitiveDict
 from homeassistant import config_entries
 from homeassistant.components import network
 from homeassistant.const import (
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     MATCH_ALL,
     __version__ as current_version,
 )
@@ -397,7 +397,7 @@ class Scanner:
 
         await self._async_start_ssdp_listeners()
 
-        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self.async_stop)
+        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.async_stop)
         self._cancel_scan = async_track_time_interval(
             self.hass, self.async_scan, SCAN_INTERVAL
         )
@@ -683,7 +683,7 @@ class Server:
 
     async def async_start(self) -> None:
         """Start the server."""
-        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self.async_stop)
+        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.async_stop)
         await self._async_start_upnp_servers()
 
     async def _async_get_instance_udn(self) -> str:

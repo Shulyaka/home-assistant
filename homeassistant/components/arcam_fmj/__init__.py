@@ -8,7 +8,7 @@ from arcam.fmj.client import Client
 import async_timeout
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP, Platform
+from homeassistant.const import CONF_HOST, CONF_PORT, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, Platform
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.dispatcher import async_dispatcher_send
@@ -47,7 +47,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
             *(_await_cancel(task) for task in hass.data[DOMAIN_DATA_TASKS].values())
         )
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _stop)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _stop)
 
     return True
 

@@ -18,7 +18,7 @@ from homeassistant.components.sensor import (
 from homeassistant.const import (
     CONF_MAC,
     CONF_NAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     PERCENTAGE,
     STATE_UNKNOWN,
     TEMP_CELSIUS,
@@ -71,7 +71,7 @@ def setup_platform(
         _LOGGER.info("Stopping monitor for %s", name)
         mon.terminate()
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, monitor_stop)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, monitor_stop)
     mon.start()
 
 

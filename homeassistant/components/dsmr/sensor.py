@@ -27,7 +27,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_HOST,
     CONF_PORT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     VOLUME_CUBIC_METERS,
 )
 from homeassistant.core import CoreState, HomeAssistant, callback
@@ -455,7 +455,7 @@ async def async_setup_entry(
                         transport.close()
 
                     stop_listener = hass.bus.async_listen_once(
-                        EVENT_HOMEASSISTANT_STOP, close_transport
+                        EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, close_transport
                     )
 
                     # Wait for reader to close

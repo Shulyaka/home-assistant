@@ -37,7 +37,7 @@ from homeassistant.components.device_tracker import (
 )
 from homeassistant.const import (
     EVENT_HOMEASSISTANT_STARTED,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     STATE_HOME,
 )
 from homeassistant.core import Event, HomeAssistant, State, callback
@@ -109,7 +109,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
             for watcher in watchers:
                 await watcher.async_stop()
 
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _async_stop)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _async_stop)
 
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STARTED, _initialize)
     return True

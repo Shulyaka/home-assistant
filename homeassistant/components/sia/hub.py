@@ -8,7 +8,7 @@ from typing import Any
 from pysiaalarm.aio import CommunicationsProtocol, SIAAccount, SIAClient, SIAEvent
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_PORT, CONF_PROTOCOL, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_PORT, CONF_PROTOCOL, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.dispatcher import async_dispatcher_send
@@ -65,7 +65,7 @@ class SIAHub:
             self._entry.add_update_listener(self.async_config_entry_updated)
         )
         self._entry.async_on_unload(
-            self._hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP, self.async_shutdown)
+            self._hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.async_shutdown)
         )
 
     async def async_shutdown(self, _: Event | None = None) -> None:

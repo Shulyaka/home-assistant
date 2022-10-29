@@ -6,7 +6,7 @@ import asyncio
 from wled import WLED, Device as WLEDDevice, WLEDConnectionClosed, WLEDError
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import CALLBACK_TYPE, Event, HomeAssistant, callback
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
@@ -91,7 +91,7 @@ class WLEDDataUpdateCoordinator(DataUpdateCoordinator[WLEDDevice]):
 
         # Clean disconnect WebSocket on Home Assistant shutdown
         self.unsub = self.hass.bus.async_listen_once(
-            EVENT_HOMEASSISTANT_STOP, close_websocket
+            EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, close_websocket
         )
 
         # Start listening

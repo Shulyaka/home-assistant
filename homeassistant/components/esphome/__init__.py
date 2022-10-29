@@ -35,7 +35,7 @@ from homeassistant.const import (
     CONF_MODE,
     CONF_PASSWORD,
     CONF_PORT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import Event, HomeAssistant, ServiceCall, State, callback
 from homeassistant.exceptions import TemplateError
@@ -97,7 +97,7 @@ async def async_setup_entry(  # noqa: C901
     # the callback twice when shutting down Home Assistant.
     # "Unable to remove unknown listener <function EventBus.async_listen_once.<locals>.onetime_listener>"
     entry_data.cleanup_callbacks.append(
-        hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP, on_stop)
+        hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, on_stop)
     )
 
     @callback

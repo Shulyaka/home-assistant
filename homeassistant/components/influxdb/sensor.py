@@ -17,7 +17,7 @@ from homeassistant.const import (
     CONF_UNIQUE_ID,
     CONF_UNIT_OF_MEASUREMENT,
     CONF_VALUE_TEMPLATE,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     STATE_UNKNOWN,
 )
 from homeassistant.core import HomeAssistant
@@ -182,7 +182,7 @@ def setup_platform(
 
     add_entities(entities, update_before_add=True)
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, lambda _: influx.close())
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, lambda _: influx.close())
 
 
 class InfluxSensor(SensorEntity):

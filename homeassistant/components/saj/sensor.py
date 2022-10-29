@@ -20,7 +20,7 @@ from homeassistant.const import (
     CONF_TYPE,
     CONF_USERNAME,
     ENERGY_KILO_WATT_HOUR,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     MASS_KILOGRAMS,
     POWER_WATT,
     TEMP_CELSIUS,
@@ -142,7 +142,7 @@ async def async_setup_platform(
         """Properly cancel the scheduled update."""
         remove_interval_update()  # pylint: disable=not-callable
 
-    hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP, stop_update_interval)
+    hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_update_interval)
     async_at_start(hass, start_update_interval)
 
 

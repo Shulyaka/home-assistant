@@ -6,7 +6,7 @@ import pytest
 
 from homeassistant.components.devolo_home_network.const import DOMAIN
 from homeassistant.config_entries import ConfigEntryState
-from homeassistant.const import CONF_IP_ADDRESS, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_IP_ADDRESS, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 
 from . import configure_integration
@@ -70,6 +70,6 @@ async def test_hass_stop(hass: HomeAssistant, mock_device: MockDevice):
     entry = configure_integration(hass)
     await hass.config_entries.async_setup(entry.entry_id)
     await hass.async_block_till_done()
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     mock_device.async_disconnect.assert_called_once()

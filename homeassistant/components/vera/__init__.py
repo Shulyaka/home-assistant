@@ -20,7 +20,7 @@ from homeassistant.const import (
     ATTR_TRIPPED,
     CONF_EXCLUDE,
     CONF_LIGHTS,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant
@@ -152,7 +152,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     await hass.async_add_executor_job(controller.start)
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_subscription)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_subscription)
     )
 
     entry.async_on_unload(entry.add_update_listener(_async_update_listener))

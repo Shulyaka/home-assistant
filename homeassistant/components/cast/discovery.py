@@ -5,7 +5,7 @@ import threading
 import pychromecast
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.dispatcher import dispatcher_send
 
@@ -91,7 +91,7 @@ def setup_internal_discovery(hass: HomeAssistant, config_entry: ConfigEntry) -> 
         browser.stop_discovery()
         hass.data[INTERNAL_DISCOVERY_RUNNING_KEY].release()
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, stop_discovery)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_discovery)
 
     config_entry.add_update_listener(config_entry_updated)
 

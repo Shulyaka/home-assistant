@@ -11,7 +11,7 @@ from aiohomekit.testing import FakePairing
 
 from homeassistant.components.homekit_controller.const import DOMAIN, ENTITY_MAP
 from homeassistant.config_entries import ConfigEntryState
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP, STATE_OFF, STATE_UNAVAILABLE
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, STATE_OFF, STATE_UNAVAILABLE
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr, entity_registry as er
 from homeassistant.helpers.entity_registry import EntityRegistry
@@ -44,7 +44,7 @@ async def test_unload_on_stop(hass, utcnow):
     with patch(
         "homeassistant.components.homekit_controller.HKDevice.async_unload"
     ) as async_unlock_mock:
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
 
     assert async_unlock_mock.called

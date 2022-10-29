@@ -35,7 +35,7 @@ from homeassistant.components.bluetooth.match import (
     SERVICE_UUID,
 )
 from homeassistant.config_entries import ConfigEntryState
-from homeassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.issue_registry import async_get as async_get_issue_registry
 from homeassistant.setup import async_setup_component
@@ -67,7 +67,7 @@ async def test_setup_and_stop(hass, mock_bleak_scanner_start, enable_bluetooth):
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     assert len(mock_bleak_scanner_start.mock_calls) == 1
 
@@ -108,7 +108,7 @@ async def test_setup_and_stop_passive(hass, mock_bleak_scanner_start, one_adapte
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
 
     assert init_kwargs == {
@@ -157,7 +157,7 @@ async def test_setup_and_stop_old_bluez(
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
 
     assert init_kwargs == {
@@ -182,7 +182,7 @@ async def test_setup_and_stop_no_bluetooth(hass, caplog, macos_adapter):
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     assert len(mock_ha_bleak_scanner.mock_calls) == 1
     assert "Failed to initialize Bluetooth" in caplog.text
@@ -201,7 +201,7 @@ async def test_setup_and_stop_broken_bluetooth(hass, caplog, macos_adapter):
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     assert "Failed to start Bluetooth" in caplog.text
     assert len(bluetooth.async_discovered_service_info(hass)) == 0
@@ -224,7 +224,7 @@ async def test_setup_and_stop_broken_bluetooth_hanging(hass, caplog, macos_adapt
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     assert "Timed out starting Bluetooth" in caplog.text
 
@@ -258,7 +258,7 @@ async def test_setup_and_retry_adapter_not_yet_available(hass, caplog, macos_ada
     with patch(
         "homeassistant.components.bluetooth.scanner.OriginalBleakScanner.stop",
     ):
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
 
 
@@ -292,7 +292,7 @@ async def test_no_race_during_manual_reload_in_retry_state(hass, caplog, macos_a
     with patch(
         "homeassistant.components.bluetooth.scanner.OriginalBleakScanner.stop",
     ):
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
 
 
@@ -311,7 +311,7 @@ async def test_calling_async_discovered_devices_no_bluetooth(
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     assert "Failed to initialize Bluetooth" in caplog.text
     assert not bluetooth.async_discovered_service_info(hass)

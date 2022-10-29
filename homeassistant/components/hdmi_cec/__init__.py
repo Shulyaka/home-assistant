@@ -29,7 +29,7 @@ from homeassistant.const import (
     CONF_HOST,
     CONF_PLATFORM,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant, ServiceCall, callback
 from homeassistant.helpers import discovery, event
@@ -359,7 +359,7 @@ def setup(hass: HomeAssistant, base_config: ConfigType) -> bool:  # noqa: C901
         hdmi_network.start()
 
     hass.bus.listen_once(EVENT_HOMEASSISTANT_START, _start_cec)
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, _shutdown)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _shutdown)
     return True
 
 

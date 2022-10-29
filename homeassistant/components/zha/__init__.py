@@ -130,7 +130,7 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> b
         await zha_gateway.shutdown()
 
     zha_data[DATA_ZHA_SHUTDOWN_TASK] = hass.bus.async_listen_once(
-        ha_const.EVENT_HOMEASSISTANT_STOP, async_zha_shutdown
+        ha_const.EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, async_zha_shutdown
     )
 
     await zha_gateway.async_initialize_devices_and_entities()

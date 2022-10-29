@@ -5,7 +5,7 @@ import logging
 from sisyphus_control import Table
 import voluptuous as vol
 
-from homeassistant.const import CONF_HOST, CONF_NAME, EVENT_HOMEASSISTANT_STOP, Platform
+from homeassistant.const import CONF_HOST, CONF_NAME, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 import homeassistant.helpers.config_validation as cv
@@ -68,7 +68,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         if tasks:
             await asyncio.wait(tasks)
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, close_tables)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, close_tables)
 
     return True
 

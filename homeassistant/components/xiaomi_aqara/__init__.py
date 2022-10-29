@@ -16,7 +16,7 @@ from homeassistant.const import (
     CONF_MAC,
     CONF_PORT,
     CONF_PROTOCOL,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant, ServiceCall, callback
@@ -179,7 +179,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 _LOGGER.debug("Shutting down Xiaomi Gateway Listener")
                 multicast.stop_listen()
 
-            unsub = hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_xiaomi)
+            unsub = hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_xiaomi)
             hass.data[DOMAIN][KEY_UNSUB_STOP] = unsub
 
     multicast = hass.data[DOMAIN][LISTENER_KEY]

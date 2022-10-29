@@ -26,7 +26,7 @@ from homeassistant.components import persistent_notification
 from homeassistant.const import (
     ATTR_ENTITY_ID,
     EVENT_HOMEASSISTANT_FINAL_WRITE,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     EVENT_STATE_CHANGED,
     MATCH_ALL,
 )
@@ -416,7 +416,7 @@ class Recorder(threading.Thread):
         """Post connection initialize."""
         bus = self.hass.bus
         bus.async_listen_once(EVENT_HOMEASSISTANT_FINAL_WRITE, self._empty_queue)
-        bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self._async_shutdown)
+        bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self._async_shutdown)
         async_at_started(self.hass, self._async_hass_started)
 
     @callback

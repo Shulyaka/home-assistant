@@ -30,7 +30,7 @@ from homeassistant.const import (
     CONF_LONGITUDE,
     CONF_RADIUS,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     LENGTH_KILOMETERS,
 )
 from homeassistant.setup import async_setup_component
@@ -221,7 +221,7 @@ async def test_setup(hass):
             assert len(all_states) == 0
 
             # Artificially trigger update.
-            hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+            hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
             # Collect events.
             await hass.async_block_till_done()
 

@@ -43,7 +43,7 @@ from homeassistant.components.media_player import (
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CAST_APP_ID_HOMEASSISTANT_LOVELACE,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import CALLBACK_TYPE, Event, HomeAssistant, callback
 from homeassistant.exceptions import HomeAssistantError
@@ -185,7 +185,7 @@ class CastDevice:
         self._del_remove_handler = async_dispatcher_connect(
             self.hass, SIGNAL_CAST_REMOVED, self._async_cast_removed
         )
-        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self._async_stop)
+        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self._async_stop)
         # asyncio.create_task is used to avoid delaying startup wrapup if the device
         # is discovered already during startup but then fails to respond
         asyncio.create_task(

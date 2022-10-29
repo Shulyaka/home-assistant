@@ -19,7 +19,7 @@ from homeassistant.const import (
     ATTR_SW_VERSION,
     CONF_ADDRESS,
     CONF_NAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant, callback
@@ -64,7 +64,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await manager.disconnect()
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, on_hass_stop)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, on_hass_stop)
     )
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)

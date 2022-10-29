@@ -16,7 +16,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     CONF_ENTITY_NAMESPACE,
     CONF_SCAN_INTERVAL,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import Event, HomeAssistant, ServiceCall, callback
 from homeassistant.exceptions import HomeAssistantError
@@ -119,7 +119,7 @@ class EntityComponent(Generic[_EntityT]):
 
         This method must be run in the event loop.
         """
-        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self._async_shutdown)
+        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self._async_shutdown)
 
         self.config = config
 

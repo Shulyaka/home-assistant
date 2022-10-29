@@ -6,7 +6,7 @@ import voluptuous as vol
 from watchdog.events import PatternMatchingEventHandler
 from watchdog.observers import Observer
 
-from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.typing import ConfigType
@@ -122,7 +122,7 @@ class Watcher:
             create_event_handler(patterns, hass), path, recursive=True
         )
         hass.bus.listen_once(EVENT_HOMEASSISTANT_START, self.startup)
-        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, self.shutdown)
+        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.shutdown)
 
     def startup(self, event):
         """Start the watcher."""

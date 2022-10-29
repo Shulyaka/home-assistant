@@ -17,7 +17,7 @@ from homeassistant.const import (
     CONF_DEVICE_ID,
     CONF_HOST,
     CONF_PORT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     STATE_ON,
 )
 from homeassistant.core import CoreState, HomeAssistant, ServiceCall, callback
@@ -300,7 +300,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
         # handle shutdown of Rflink asyncio transport
         hass.bus.async_listen_once(
-            EVENT_HOMEASSISTANT_STOP, lambda x: transport.close()
+            EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, lambda x: transport.close()
         )
 
         _LOGGER.info("Connected to Rflink")

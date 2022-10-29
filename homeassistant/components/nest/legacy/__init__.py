@@ -17,7 +17,7 @@ from homeassistant.const import (
     CONF_FILENAME,
     CONF_STRUCTURE,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant, callback
@@ -255,7 +255,7 @@ async def async_setup_legacy_entry(hass: HomeAssistant, entry: ConfigEntry) -> b
         nest.update_event.set()
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, shut_down)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, shut_down)
     )
 
     _LOGGER.debug("async_setup_nest is done")

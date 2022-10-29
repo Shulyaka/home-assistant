@@ -13,7 +13,7 @@ from homeassistant.const import (
     CONF_HOST,
     CONF_PORT,
     CONF_TIMEOUT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
@@ -82,7 +82,7 @@ def setup_platform(
     if discovery:
         start_scanning(config, add_entities, client)
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, lambda event: client.close())
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, lambda event: client.close())
 
     # Start the pyflic event handling thread
     threading.Thread(target=client.handle_events).start()

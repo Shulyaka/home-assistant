@@ -16,7 +16,7 @@ from homeassistant.const import (
     CONF_REPEAT,
     CONF_SENSORS,
     CONF_TYPE,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     STATE_UNKNOWN,
 )
 from homeassistant.core import HomeAssistant
@@ -142,6 +142,6 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
             receiver.stop()
         _LOGGER.info("Terminated receivers")
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, _stop_kira)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _stop_kira)
 
     return True

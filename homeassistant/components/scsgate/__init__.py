@@ -8,7 +8,7 @@ from scsgate.reactor import Reactor
 from scsgate.tasks import GetStatusTask
 import voluptuous as vol
 
-from homeassistant.const import CONF_DEVICE, CONF_NAME, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_DEVICE, CONF_NAME, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.typing import ConfigType
@@ -45,7 +45,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
         _LOGGER.info("Stopping SCSGate monitor thread")
         scsgate.stop()
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, stop_monitor)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_monitor)
     hass.data[DOMAIN] = scsgate
 
     return True

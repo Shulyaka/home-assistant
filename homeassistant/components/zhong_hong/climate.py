@@ -19,7 +19,7 @@ from homeassistant.const import (
     ATTR_TEMPERATURE,
     CONF_HOST,
     CONF_PORT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     TEMP_CELSIUS,
 )
 from homeassistant.core import HomeAssistant
@@ -113,7 +113,7 @@ def setup_platform(
         """Stop ZhongHongHub socket."""
         hub.stop_listen()
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, stop_listen)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_listen)
 
 
 class ZhongHongClimate(ClimateEntity):

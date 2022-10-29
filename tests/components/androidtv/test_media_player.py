@@ -59,7 +59,7 @@ from homeassistant.const import (
     CONF_HOST,
     CONF_NAME,
     CONF_PORT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     STATE_OFF,
     STATE_PLAYING,
     STATE_STANDBY,
@@ -1068,7 +1068,7 @@ async def test_connection_closed_on_ha_stop(hass):
         await hass.async_block_till_done()
 
         with patch("androidtv.basetv.basetv_async.BaseTVAsync.adb_close") as adb_close:
-            hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+            hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
             await hass.async_block_till_done()
             assert adb_close.called
 

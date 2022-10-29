@@ -21,7 +21,7 @@ from homeassistant.components.hdmi_cec import (
     PhysicalAddress,
     parse_mapping,
 )
-from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.setup import async_setup_component
 from homeassistant.util.dt import utcnow
 
@@ -114,7 +114,7 @@ async def test_setup_cec_adapter(hass, mock_cec_adapter, mock_hdmi_network):
     await hass.async_block_till_done()
     mock_hdmi_network_instance.start.assert_called_once_with()
     mock_hdmi_network_instance.set_new_device_callback.assert_called_once()
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     mock_hdmi_network_instance.stop.assert_called_once_with()
 
@@ -145,7 +145,7 @@ async def test_setup_tcp_adapter(hass, mock_tcp_adapter, mock_hdmi_network):
     await hass.async_block_till_done()
     mock_hdmi_network_instance.start.assert_called_once_with()
     mock_hdmi_network_instance.set_new_device_callback.assert_called_once()
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     mock_hdmi_network_instance.stop.assert_called_once_with()
 

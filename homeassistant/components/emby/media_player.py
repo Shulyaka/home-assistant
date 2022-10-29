@@ -20,7 +20,7 @@ from homeassistant.const import (
     CONF_SSL,
     DEVICE_DEFAULT_NAME,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant, callback
 import homeassistant.helpers.config_validation as cv
@@ -126,7 +126,7 @@ async def async_setup_platform(
     emby.add_stale_devices_callback(device_removal_callback)
 
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_START, start_emby)
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_emby)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_emby)
 
 
 class EmbyDevice(MediaPlayerEntity):

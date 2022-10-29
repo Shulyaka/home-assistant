@@ -20,7 +20,7 @@ from homeassistant.components.light import (
     LightEntity,
     LightEntityFeature,
 )
-from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -88,7 +88,7 @@ def setup_platform(
         except ValueError:
             _LOGGER.error("Failed to log out of myLeviton Service")
 
-    hass.bus.listen(EVENT_HOMEASSISTANT_STOP, logout)
+    hass.bus.listen(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, logout)
 
 
 class DecoraWifiLight(LightEntity):

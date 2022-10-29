@@ -11,7 +11,7 @@ from homeassistant.const import (
     CONF_NAME,
     CONF_PORT,
     CONF_TYPE,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
@@ -78,7 +78,7 @@ def setup_platform(
         ):
             sensors.append(KWBSensor(easyfire, sensor, client_name))
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, lambda event: easyfire.stop_thread())
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, lambda event: easyfire.stop_thread())
 
     add_entities(sensors)
 

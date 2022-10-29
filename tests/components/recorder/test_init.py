@@ -48,7 +48,7 @@ from homeassistant.components.recorder.util import session_scope
 from homeassistant.const import (
     EVENT_HOMEASSISTANT_FINAL_WRITE,
     EVENT_HOMEASSISTANT_STARTED,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     MATCH_ALL,
     STATE_LOCKED,
     STATE_UNLOCKED,
@@ -112,7 +112,7 @@ async def test_shutdown_before_startup_finishes(
     session = await hass.async_add_executor_job(instance.get_session)
 
     with patch.object(instance, "engine"):
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
         await hass.async_stop()
 
@@ -162,7 +162,7 @@ async def test_shutdown_closes_connections(recorder_mock, hass):
 
     await instance.async_add_executor_job(_ensure_connected)
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
 
     assert len(pool.shutdown.mock_calls) == 1
@@ -369,7 +369,7 @@ async def test_force_shutdown_with_queue_of_writes_that_generate_exceptions(
             hass.states.async_set(entity_id, "on", attributes)
             hass.states.async_set(entity_id, "off", attributes)
 
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         hass.bus.async_fire(EVENT_HOMEASSISTANT_FINAL_WRITE)
         await hass.async_block_till_done()
 
@@ -1329,7 +1329,7 @@ async def test_database_corruption_while_running(hass, tmpdir, caplog):
     new_start_time = get_instance(hass).run_history.recording_start
     assert original_start_time < new_start_time
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     hass.stop()
 
@@ -1456,7 +1456,7 @@ async def test_database_lock_timeout(recorder_mock, hass, recorder_db_url):
         # This test is specific for SQLite: Locking is not implemented for other engines
         return
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
 
     instance = get_instance(hass)
 
@@ -1479,7 +1479,7 @@ async def test_database_lock_timeout(recorder_mock, hass, recorder_db_url):
 
 async def test_database_lock_without_instance(recorder_mock, hass):
     """Test database lock doesn't fail if instance is not initialized."""
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
 
     instance = get_instance(hass)
     with patch.object(instance, "engine", None):

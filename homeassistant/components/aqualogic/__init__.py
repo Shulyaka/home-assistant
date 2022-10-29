@@ -13,7 +13,7 @@ from homeassistant.const import (
     CONF_HOST,
     CONF_PORT,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.helpers import config_validation as cv
@@ -44,7 +44,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
     processor = AquaLogicProcessor(hass, host, port)
     hass.data[DOMAIN] = processor
     hass.bus.listen_once(EVENT_HOMEASSISTANT_START, processor.start_listen)
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, processor.shutdown)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, processor.shutdown)
     _LOGGER.debug("AquaLogicProcessor %s:%i initialized", host, port)
     return True
 

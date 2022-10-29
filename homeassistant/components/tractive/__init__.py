@@ -14,7 +14,7 @@ from homeassistant.const import (
     ATTR_BATTERY_LEVEL,
     CONF_EMAIL,
     CONF_PASSWORD,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import Event, HomeAssistant
@@ -108,7 +108,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await tractive.unsubscribe()
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, cancel_listen_task)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, cancel_listen_task)
     )
 
     return True

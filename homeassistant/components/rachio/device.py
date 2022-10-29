@@ -9,7 +9,7 @@ from rachiopy import Rachio
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant, ServiceCall
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import config_validation as cv
@@ -254,7 +254,7 @@ class RachioIro:
         )
         # Save ID for deletion at shutdown
         current_webhook_id = new_webhook[1][KEY_ID]
-        self.hass.bus.listen(EVENT_HOMEASSISTANT_STOP, _deinit_webhooks)
+        self.hass.bus.listen(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _deinit_webhooks)
 
     def __str__(self) -> str:
         """Display the controller as a string."""

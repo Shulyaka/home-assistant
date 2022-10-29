@@ -26,7 +26,7 @@ from homeassistant.const import (
     ATTR_DOMAIN,
     ATTR_ENTITY_ID,
     CONF_URL,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import Event, HomeAssistant, callback
@@ -195,7 +195,7 @@ async def start_client(
     )
     entry_hass_data[DATA_CLIENT_LISTEN_TASK] = listen_task
     entry.async_on_unload(
-        hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP, handle_ha_shutdown)
+        hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, handle_ha_shutdown)
     )
 
     try:

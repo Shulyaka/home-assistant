@@ -3,7 +3,7 @@ import logging
 
 from emulated_roku import EmulatedRokuCommandHandler, EmulatedRokuServer
 
-from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import CoreState, EventOrigin
 
 LOGGER = logging.getLogger(__package__)
@@ -151,7 +151,7 @@ class EmulatedRoku:
                 await emulated_roku_stop(None)
             else:
                 self._unsub_stop_listener = self.hass.bus.async_listen_once(
-                    EVENT_HOMEASSISTANT_STOP, emulated_roku_stop
+                    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, emulated_roku_stop
                 )
 
         # start immediately if already running

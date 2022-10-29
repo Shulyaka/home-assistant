@@ -11,7 +11,7 @@ from homeassistant.const import (
     ATTR_ENTITY_ID,
     CONTENT_TYPE_MULTIPART,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant, ServiceCall, callback
 import homeassistant.helpers.config_validation as cv
@@ -235,7 +235,7 @@ class FFmpegBase(Entity):
             """Stop FFmpeg process."""
             await self._async_stop_ffmpeg(None)
 
-        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, async_shutdown_handle)
+        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, async_shutdown_handle)
 
         # start on startup
         if not self.initial_state:

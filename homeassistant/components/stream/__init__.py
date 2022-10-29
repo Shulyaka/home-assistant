@@ -29,7 +29,7 @@ from typing import Any, Final, cast
 
 import voluptuous as vol
 
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.exceptions import HomeAssistantError
 import homeassistant.helpers.config_validation as cv
@@ -252,7 +252,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
             await asyncio.wait(awaitables)
         _LOGGER.debug("Stopped stream workers")
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, shutdown)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, shutdown)
 
     return True
 

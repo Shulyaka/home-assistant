@@ -14,7 +14,7 @@ from homeassistant.const import (
     CONF_DEVICE,
     CONF_IP_ADDRESS,
     CONF_PORT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant, ServiceCall
 import homeassistant.helpers.config_validation as cv
@@ -111,7 +111,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
         return False
 
     hass.data[DATA_ADS] = ads
-    hass.bus.listen(EVENT_HOMEASSISTANT_STOP, ads.shutdown)
+    hass.bus.listen(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, ads.shutdown)
 
     def handle_write_data_by_name(call: ServiceCall) -> None:
         """Write a value to the connected ADS device."""

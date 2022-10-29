@@ -16,7 +16,7 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.components import websocket_api
 from homeassistant.components.websocket_api.connection import ActiveConnection
-from homeassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import (
     CALLBACK_TYPE,
     Event,
@@ -213,7 +213,7 @@ class USBDiscovery:
         def _stop_observer(event: Event) -> None:
             observer.stop()
 
-        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _stop_observer)
+        self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _stop_observer)
         self.observer_active = True
 
     def _device_discovered(self, device: Device) -> None:

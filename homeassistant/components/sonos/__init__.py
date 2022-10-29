@@ -21,7 +21,7 @@ from homeassistant import config_entries
 from homeassistant.components import ssdp
 from homeassistant.components.media_player import DOMAIN as MP_DOMAIN
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_HOSTS, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_HOSTS, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import CALLBACK_TYPE, Event, HomeAssistant, callback
 from homeassistant.helpers import config_validation as cv, device_registry as dr
 from homeassistant.helpers.dispatcher import async_dispatcher_send, dispatcher_send
@@ -394,14 +394,14 @@ class SonosDiscoveryManager:
         await self.hass.config_entries.async_forward_entry_setups(self.entry, PLATFORMS)
         self.entry.async_on_unload(
             self.hass.bus.async_listen_once(
-                EVENT_HOMEASSISTANT_STOP, self._async_stop_event_listener
+                EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self._async_stop_event_listener
             )
         )
         _LOGGER.debug("Adding discovery job")
         if self.hosts:
             self.entry.async_on_unload(
                 self.hass.bus.async_listen_once(
-                    EVENT_HOMEASSISTANT_STOP, self._stop_manual_heartbeat
+                    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self._stop_manual_heartbeat
                 )
             )
             await self.hass.async_add_executor_job(self._poll_manual_hosts)

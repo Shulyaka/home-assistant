@@ -15,7 +15,7 @@ from homeassistant.const import (
     CONF_ID,
     CONF_MODEL,
     CONF_NAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import ConfigEntryNotReady
@@ -262,7 +262,7 @@ async def _async_get_device(
         hass.async_create_task(device.bulb.async_stop_listening())
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, async_stop_listen_task)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, async_stop_listen_task)
     )
     entry.async_on_unload(_async_stop_listen_on_unload)
 

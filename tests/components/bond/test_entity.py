@@ -9,7 +9,7 @@ from bond_async.bpup import BPUP_ALIVE_TIMEOUT
 from homeassistant import core
 from homeassistant.components import fan
 from homeassistant.components.fan import DOMAIN as FAN_DOMAIN
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP, STATE_ON, STATE_UNAVAILABLE
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, STATE_ON, STATE_UNAVAILABLE
 from homeassistant.core import CoreState
 from homeassistant.util import utcnow
 
@@ -206,7 +206,7 @@ async def test_polling_stops_at_the_stop_event(hass: core.HomeAssistant):
 
     assert hass.states.get("fan.name_1").state == STATE_UNAVAILABLE
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     hass.state = CoreState.stopping
     await hass.async_block_till_done()
 

@@ -9,7 +9,7 @@ from homeassistant.const import (
     CONF_CODE,
     CONF_HOST,
     CONF_TIMEOUT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant, ServiceCall, callback
@@ -153,7 +153,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         """Network failure callback."""
         _LOGGER.error("Could not establish a connection with the Envisalink- retrying")
         if not sync_connect.done():
-            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_envisalink)
+            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_envisalink)
             sync_connect.set_result(True)
 
     @callback
@@ -161,7 +161,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         """Handle a successful connection."""
         _LOGGER.info("Established a connection with the Envisalink")
         if not sync_connect.done():
-            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_envisalink)
+            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_envisalink)
             sync_connect.set_result(True)
 
     @callback

@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 import logging
 from typing import Any, TypeVar, cast
 
-from homeassistant.const import ATTR_RESTORED, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import ATTR_RESTORED, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant, State, callback, valid_entity_id
 from homeassistant.exceptions import HomeAssistantError
 import homeassistant.util.dt as dt_util
@@ -225,7 +225,7 @@ class RestoreStateData:
 
         # Dump states when stopping hass
         self.hass.bus.async_listen_once(
-            EVENT_HOMEASSISTANT_STOP, _async_dump_states_at_stop
+            EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _async_dump_states_at_stop
         )
 
     @callback

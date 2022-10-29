@@ -16,7 +16,7 @@ from homeassistant.components.bluetooth.const import (
 )
 from homeassistant.components.bluetooth.scanner import NEED_RESET_ERRORS
 from homeassistant.config_entries import ConfigEntryState
-from homeassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STARTED, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.util import dt as dt_util
 
 from . import _get_manager, async_setup_with_one_adapter, generate_advertisement_data
@@ -56,7 +56,7 @@ async def test_dbus_socket_missing_in_container(hass, caplog, one_adapter):
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     assert "/run/dbus" in caplog.text
     assert "docker" in caplog.text
@@ -76,7 +76,7 @@ async def test_dbus_socket_missing(hass, caplog, one_adapter):
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     assert "DBus" in caplog.text
     assert "docker" not in caplog.text
@@ -96,7 +96,7 @@ async def test_dbus_broken_pipe_in_container(hass, caplog, one_adapter):
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     assert "dbus" in caplog.text
     assert "restarting" in caplog.text
@@ -117,7 +117,7 @@ async def test_dbus_broken_pipe(hass, caplog, one_adapter):
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     assert "DBus" in caplog.text
     assert "restarting" in caplog.text
@@ -136,7 +136,7 @@ async def test_invalid_dbus_message(hass, caplog, one_adapter):
         hass.bus.async_fire(EVENT_HOMEASSISTANT_STARTED)
         await hass.async_block_till_done()
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
     assert "dbus" in caplog.text
 
@@ -158,7 +158,7 @@ async def test_adapter_needs_reset_at_start(hass, caplog, one_adapter, error):
 
     assert len(mock_recover_adapter.mock_calls) == 1
 
-    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+    hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
     await hass.async_block_till_done()
 
 

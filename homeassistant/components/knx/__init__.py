@@ -27,7 +27,7 @@ from homeassistant.const import (
     CONF_HOST,
     CONF_PORT,
     CONF_TYPE,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import Event, HomeAssistant, ServiceCall
@@ -355,7 +355,7 @@ class KNXModule:
         )
 
         self.entry.async_on_unload(
-            self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self.stop)
+            self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.stop)
         )
         self.entry.async_on_unload(self.entry.add_update_listener(async_update_entry))
 

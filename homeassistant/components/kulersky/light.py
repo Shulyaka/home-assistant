@@ -14,7 +14,7 @@ from homeassistant.components.light import (
     LightEntity,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -75,7 +75,7 @@ class KulerskyLight(LightEntity):
         """Run when entity about to be added to hass."""
         self.async_on_remove(
             self.hass.bus.async_listen_once(
-                EVENT_HOMEASSISTANT_STOP, self.async_will_remove_from_hass
+                EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.async_will_remove_from_hass
             )
         )
 

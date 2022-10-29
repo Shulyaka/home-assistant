@@ -5,7 +5,7 @@ import voluptuous as vol
 from homeassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     EVENT_STATE_CHANGED,
 )
 from homeassistant.core import HomeAssistant
@@ -48,7 +48,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
         """Stop the Shiftr.io MQTT component."""
         mqttc.disconnect()
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, stop_shiftr)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_shiftr)
 
     def shiftr_event_listener(event):
         """Listen for new messages on the bus and sends them to Shiftr.io."""

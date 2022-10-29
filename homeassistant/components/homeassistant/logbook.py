@@ -8,13 +8,13 @@ from homeassistant.components.logbook import (
     LOGBOOK_ENTRY_MESSAGE,
     LOGBOOK_ENTRY_NAME,
 )
-from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant, callback
 
 from . import DOMAIN
 
 EVENT_TO_NAME = {
-    EVENT_HOMEASSISTANT_STOP: "stopped",
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS: "stopped",
     EVENT_HOMEASSISTANT_START: "started",
 }
 
@@ -35,5 +35,5 @@ def async_describe_events(
             LOGBOOK_ENTRY_ICON: "mdi:home-assistant",
         }
 
-    async_describe_event(DOMAIN, EVENT_HOMEASSISTANT_STOP, async_describe_hass_event)
+    async_describe_event(DOMAIN, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, async_describe_hass_event)
     async_describe_event(DOMAIN, EVENT_HOMEASSISTANT_START, async_describe_hass_event)

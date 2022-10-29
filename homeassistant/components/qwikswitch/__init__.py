@@ -14,7 +14,7 @@ from homeassistant.const import (
     CONF_SWITCHES,
     CONF_URL,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant, callback
@@ -238,6 +238,6 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         """Stop the listener."""
         hass.data[DOMAIN].stop()
 
-    hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP, async_stop)
+    hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, async_stop)
 
     return True

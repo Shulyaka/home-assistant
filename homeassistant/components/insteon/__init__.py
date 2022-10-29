@@ -7,7 +7,7 @@ from pyinsteon import async_close, async_connect, devices
 from pyinsteon.constants import ReadWriteMode
 
 from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
-from homeassistant.const import CONF_PLATFORM, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_PLATFORM, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers import device_registry as dr
@@ -112,7 +112,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             raise ConfigEntryNotReady from exception
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, close_insteon_connection)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, close_insteon_connection)
     )
 
     await devices.async_load(

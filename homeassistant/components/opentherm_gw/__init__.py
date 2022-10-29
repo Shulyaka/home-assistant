@@ -18,7 +18,7 @@ from homeassistant.const import (
     CONF_DEVICE,
     CONF_ID,
     CONF_NAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     PRECISION_HALVES,
     PRECISION_TENTHS,
     PRECISION_WHOLE,
@@ -459,7 +459,7 @@ class OpenThermGatewayDevice:
         )
         if gw_dev.sw_version != self.gw_version:
             dev_reg.async_update_device(gw_dev.id, sw_version=self.gw_version)
-        self.hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP, self.cleanup)
+        self.hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.cleanup)
 
         async def handle_report(status):
             """Handle reports from the OpenTherm Gateway."""

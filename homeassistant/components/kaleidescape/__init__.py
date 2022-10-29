@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 from kaleidescape import Device as KaleidescapeDevice, KaleidescapeError
 
-from homeassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP, Platform
+from homeassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, Platform
 from homeassistant.exceptions import ConfigEntryNotReady, HomeAssistantError
 
 from .const import DOMAIN
@@ -42,7 +42,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await device.disconnect()
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, disconnect)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, disconnect)
     )
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)

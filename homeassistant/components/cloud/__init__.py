@@ -14,7 +14,7 @@ from homeassistant.const import (
     CONF_MODE,
     CONF_NAME,
     CONF_REGION,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant, ServiceCall, callback
@@ -240,7 +240,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         """Shutdown event."""
         await cloud.stop()
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _shutdown)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _shutdown)
 
     _remote_handle_prefs_updated(cloud)
 

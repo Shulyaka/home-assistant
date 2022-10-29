@@ -28,7 +28,7 @@ from homeassistant.const import (
     DATA_GIBIBYTES,
     DATA_MEBIBYTES,
     DATA_RATE_MEGABYTES_PER_SECOND,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     PERCENTAGE,
     STATE_OFF,
     STATE_ON,
@@ -415,7 +415,7 @@ async def async_setup_sensor_registry_updates(
     def _async_stop_polling(*_: Any) -> None:
         polling_remover()
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _async_stop_polling)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _async_stop_polling)
 
     await _async_update_data()
 

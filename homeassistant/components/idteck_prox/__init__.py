@@ -10,7 +10,7 @@ from homeassistant.const import (
     CONF_HOST,
     CONF_NAME,
     CONF_PORT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import Event, HomeAssistant
 import homeassistant.helpers.config_validation as cv
@@ -52,7 +52,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
         try:
             reader = IdteckReader(hass, host, port, name)
             reader.connect()
-            hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, reader.stop)
+            hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, reader.stop)
         except OSError as error:
             _LOGGER.error("Error creating %s. %s", name, error)
             return False

@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_EMAIL, EVENT_HOMEASSISTANT_STOP, Platform
+from homeassistant.const import CONF_EMAIL, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed
 import homeassistant.helpers.config_validation as cv
@@ -37,7 +37,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         raise ConfigEntryAuthFailed
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, coordinator.async_logout)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, coordinator.async_logout)
     )
 
     await coordinator.async_config_entry_first_refresh()

@@ -34,7 +34,7 @@ from homeassistant.const import (
     CONF_API_KEY,
     CONF_HOST,
     CONF_PORT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -226,7 +226,7 @@ class SystemBridgeDataUpdateCoordinator(
 
         # Clean disconnect WebSocket on Home Assistant shutdown
         self.unsub = self.hass.bus.async_listen_once(
-            EVENT_HOMEASSISTANT_STOP, close_websocket
+            EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, close_websocket
         )
 
     async def _async_update_data(self) -> SystemBridgeCoordinatorData:

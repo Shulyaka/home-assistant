@@ -23,7 +23,7 @@ from homeassistant.const import (
     CONF_SSL,
     CONF_USERNAME,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
@@ -160,7 +160,7 @@ class HikvisionData:
         if self._name is None:
             self._name = self.camdata.get_name
 
-        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, self.stop_hik)
+        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.stop_hik)
         hass.bus.listen_once(EVENT_HOMEASSISTANT_START, self.start_hik)
 
     def stop_hik(self, event):

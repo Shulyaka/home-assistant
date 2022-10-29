@@ -16,7 +16,7 @@ from crownstone_uart.Exceptions import UartException
 
 from homeassistant.components import persistent_notification
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_EMAIL, CONF_PASSWORD, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_EMAIL, CONF_PASSWORD, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers import aiohttp_client
@@ -108,7 +108,7 @@ class CrownstoneEntryManager:
             self.config_entry.add_update_listener(_async_update_listener)
         )
         self.config_entry.async_on_unload(
-            self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self.on_shutdown)
+            self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self.on_shutdown)
         )
 
         return True

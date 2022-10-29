@@ -3,7 +3,7 @@ import logging
 
 from homeassistant.components.remote import ATTR_ACTIVITY, ATTR_DELAY_SECS
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_HOST, CONF_NAME, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_HOST, CONF_NAME, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import entity_registry
 from homeassistant.helpers.dispatcher import async_dispatcher_send
@@ -41,7 +41,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     async def _async_on_stop(event):
         await data.shutdown()
 
-    cancel_stop = hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP, _async_on_stop)
+    cancel_stop = hass.bus.async_listen(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _async_on_stop)
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = {
         HARMONY_DATA: data,

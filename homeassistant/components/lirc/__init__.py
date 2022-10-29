@@ -6,7 +6,7 @@ import time
 
 import lirc
 
-from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.typing import ConfigType
 
@@ -36,7 +36,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
         lirc_interface.stopped.set()
 
     hass.bus.listen_once(EVENT_HOMEASSISTANT_START, _start_lirc)
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, _stop_lirc)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _stop_lirc)
 
     return True
 

@@ -11,7 +11,7 @@ from homeassistant.const import (
     CONF_ENTITIES,
     CONF_TYPE,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import Event, HomeAssistant
 import homeassistant.helpers.config_validation as cv
@@ -120,7 +120,7 @@ async def start_emulated_hue_bridge(
         await site.stop()
         await runner.cleanup()
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_emulated_hue_bridge)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_emulated_hue_bridge)
 
 
 async def async_setup(hass: HomeAssistant, yaml_config: ConfigType) -> bool:

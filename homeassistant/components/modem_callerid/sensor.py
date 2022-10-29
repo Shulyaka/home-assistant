@@ -5,7 +5,7 @@ from phone_modem import PhoneModem
 
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP, STATE_IDLE
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, STATE_IDLE
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers import entity_platform
 
@@ -35,7 +35,7 @@ async def async_setup_entry(
             await hass.data[DOMAIN][entry.entry_id][DATA_KEY_API].close()
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _async_on_hass_stop)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _async_on_hass_stop)
     )
 
 

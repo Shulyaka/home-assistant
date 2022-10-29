@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 from motionblinds import DEVICE_TYPES_WIFI, AsyncMotionMulticast, ParseException
 
 from homeassistant.config_entries import ConfigEntry, ConfigEntryState
-from homeassistant.const import CONF_API_KEY, CONF_HOST, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_API_KEY, CONF_HOST, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers import device_registry as dr
@@ -153,7 +153,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 multicast.Stop_listen()
 
             unsub = hass.bus.async_listen_once(
-                EVENT_HOMEASSISTANT_STOP, stop_motion_multicast
+                EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_motion_multicast
             )
             hass.data[DOMAIN][KEY_UNSUB_STOP] = unsub
 

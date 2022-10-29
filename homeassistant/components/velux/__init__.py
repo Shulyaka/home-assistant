@@ -7,7 +7,7 @@ import voluptuous as vol
 from homeassistant.const import (
     CONF_HOST,
     CONF_PASSWORD,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant, ServiceCall, callback
@@ -69,7 +69,7 @@ class VeluxModule:
         async def async_reboot_gateway(service_call: ServiceCall) -> None:
             await self.pyvlx.reboot_gateway()
 
-        self._hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, on_hass_stop)
+        self._hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, on_hass_stop)
         host = self._domain_config.get(CONF_HOST)
         password = self._domain_config.get(CONF_PASSWORD)
         self.pyvlx = PyVLX(host=host, password=password)

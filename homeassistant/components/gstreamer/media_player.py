@@ -17,7 +17,7 @@ from homeassistant.components.media_player import (
     MediaType,
     async_process_play_media_url,
 )
-from homeassistant.const import CONF_NAME, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_NAME, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
@@ -50,7 +50,7 @@ def setup_platform(
         """Quit the player on shutdown."""
         player.quit()
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, _shutdown)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _shutdown)
     add_entities([GstreamerDevice(player, name)])
 
 

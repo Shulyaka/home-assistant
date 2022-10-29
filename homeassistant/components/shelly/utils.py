@@ -11,7 +11,7 @@ from aioshelly.rpc_device import RpcDevice, WsServer
 
 from homeassistant.components.http import HomeAssistantView
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP, TEMP_CELSIUS, TEMP_FAHRENHEIT
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, TEMP_CELSIUS, TEMP_FAHRENHEIT
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import device_registry, entity_registry, singleton
 from homeassistant.helpers.typing import EventType
@@ -227,7 +227,7 @@ async def get_coap_context(hass: HomeAssistant) -> COAP:
     def shutdown_listener(ev: EventType) -> None:
         context.close()
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, shutdown_listener)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, shutdown_listener)
     return context
 
 

@@ -29,7 +29,7 @@ from homeassistant.const import (
     ELECTRIC_CURRENT_AMPERE,
     ELECTRIC_POTENTIAL_VOLT,
     ENERGY_KILO_WATT_HOUR,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     PERCENTAGE,
     POWER_WATT,
     SIGNAL_STRENGTH_DECIBELS,
@@ -513,7 +513,7 @@ class TibberRtDataCoordinator(DataUpdateCoordinator):
         self._async_remove_device_updates_handler = self.async_add_listener(
             self._add_sensors
         )
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, self._handle_ha_stop)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self._handle_ha_stop)
 
     @callback
     def _handle_ha_stop(self, _event: Event) -> None:

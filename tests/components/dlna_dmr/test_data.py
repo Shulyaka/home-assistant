@@ -10,7 +10,7 @@ import pytest
 
 from homeassistant.components.dlna_dmr.const import DOMAIN
 from homeassistant.components.dlna_dmr.data import EventListenAddr, get_domain_data
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant
 
 
@@ -119,7 +119,7 @@ async def test_cleanup_event_notifiers(
         EventListenAddr(None, 0, "different"), hass
     )
 
-    await domain_data.async_cleanup_event_notifiers(Event(EVENT_HOMEASSISTANT_STOP))
+    await domain_data.async_cleanup_event_notifiers(Event(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS))
 
     assert not domain_data.event_notifiers
     assert not domain_data.event_notifier_refs

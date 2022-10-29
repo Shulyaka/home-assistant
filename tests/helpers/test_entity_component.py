@@ -12,7 +12,7 @@ import voluptuous as vol
 from homeassistant.const import (
     ENTITY_MATCH_ALL,
     ENTITY_MATCH_NONE,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 import homeassistant.core as ha
 from homeassistant.exceptions import PlatformNotReady
@@ -510,7 +510,7 @@ async def test_platforms_shutdown_on_stop(hass):
     with patch.object(
         component._platforms[DOMAIN], "async_shutdown"
     ) as mock_async_shutdown:
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
 
     assert mock_async_shutdown.called

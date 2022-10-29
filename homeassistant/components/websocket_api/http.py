@@ -12,7 +12,7 @@ from aiohttp import WSMsgType, web
 import async_timeout
 
 from homeassistant.components.http import HomeAssistantView
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers.dispatcher import async_dispatcher_send
 from homeassistant.helpers.event import async_call_later
@@ -190,7 +190,7 @@ class WebSocketHandler:
             self._cancel()
 
         unsub_stop = self.hass.bus.async_listen(
-            EVENT_HOMEASSISTANT_STOP, handle_hass_stop
+            EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, handle_hass_stop
         )
 
         # As the webserver is now started before the start

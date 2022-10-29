@@ -15,7 +15,7 @@ from kostal.plenticore import (
     PlenticoreAuthenticationException,
 )
 
-from homeassistant.const import CONF_HOST, CONF_PASSWORD, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_HOST, CONF_PASSWORD, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -70,7 +70,7 @@ class Plenticore:
             _LOGGER.debug("Log-in successfully to %s", self.host)
 
         self._shutdown_remove_listener = self.hass.bus.async_listen_once(
-            EVENT_HOMEASSISTANT_STOP, self._async_shutdown
+            EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, self._async_shutdown
         )
 
         # get some device meta data

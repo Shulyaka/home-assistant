@@ -19,7 +19,7 @@ from homeassistant.const import (
     CONF_PROTOCOL,
     CONF_WHITELIST,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant, ServiceCall
 import homeassistant.helpers.config_validation as cv
@@ -90,7 +90,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
         """Run once when Home Assistant stops."""
         pilight_client.stop()
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, stop_pilight_client)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_pilight_client)
 
     @send_throttler.limited
     def send_code(call: ServiceCall) -> None:

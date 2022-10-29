@@ -11,7 +11,7 @@ from homeassistant.components import persistent_notification
 from homeassistant.const import (
     CONF_PASSWORD,
     CONF_USERNAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant, callback
@@ -131,7 +131,7 @@ class WaterFurnaceData(threading.Thread):
                 self._shutdown = True
                 self.join()
 
-            self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, shutdown)
+            self.hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, shutdown)
 
         self.hass.add_job(register)
 

@@ -22,7 +22,7 @@ from homeassistant.components.device_tracker.legacy import (
     AsyncSeeCallback,
     async_load_config,
 )
-from homeassistant.const import CONF_SCAN_INTERVAL, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_SCAN_INTERVAL, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant, callback
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.event import async_track_time_interval
@@ -224,7 +224,7 @@ async def async_setup_scanner(  # noqa: C901
         for cancel in cancels:
             cancel()
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _async_handle_stop)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _async_handle_stop)
 
     _async_refresh_ble(dt_util.now())
 

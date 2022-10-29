@@ -6,7 +6,7 @@ from boschshcpy.exceptions import SHCAuthenticationError, SHCConnectionError
 
 from homeassistant.components.zeroconf import async_get_instance
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP, Platform
+from homeassistant.const import CONF_HOST, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import device_registry as dr
@@ -77,7 +77,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await hass.async_add_executor_job(session.start_polling)
     hass.data[DOMAIN][entry.entry_id][
         DATA_POLLING_HANDLER
-    ] = hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_polling)
+    ] = hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_polling)
 
     return True
 

@@ -14,7 +14,7 @@ from homeassistant.const import (
     CONF_SCAN_INTERVAL,
     CONF_SSL,
     CONF_VERIFY_SSL,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryNotReady
@@ -108,7 +108,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await sma.close_session()
 
     remove_stop_listener = hass.bus.async_listen_once(
-        EVENT_HOMEASSISTANT_STOP, async_close_session
+        EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, async_close_session
     )
 
     hass.data.setdefault(DOMAIN, {})

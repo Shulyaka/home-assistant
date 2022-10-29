@@ -1071,7 +1071,7 @@ def mock_bleak_scanner_start():
 
     # We need to drop the stop method from the object since we patched
     # out start and this fixture will expire before the stop method is called
-    # when EVENT_HOMEASSISTANT_STOP is fired.
+    # when EVENT_HOMEASSISTANT_STOP_INTEGRATIONS is fired.
     bluetooth_scanner.OriginalBleakScanner.stop = AsyncMock()
     with patch(
         "homeassistant.components.bluetooth.scanner.OriginalBleakScanner.start",

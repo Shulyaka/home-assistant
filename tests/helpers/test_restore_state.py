@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 from unittest.mock import patch
 
-from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_START, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import CoreState, State
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity import Entity
@@ -84,7 +84,7 @@ async def test_periodic_write(hass):
     with patch(
         "homeassistant.helpers.restore_state.Store.async_save"
     ) as mock_write_data:
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
 
     assert mock_write_data.called
@@ -148,7 +148,7 @@ async def test_save_persistent_states(hass):
     with patch(
         "homeassistant.helpers.restore_state.Store.async_save"
     ) as mock_write_data:
-        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP)
+        hass.bus.async_fire(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS)
         await hass.async_block_till_done()
     # Verify normal shutdown
     assert mock_write_data.called

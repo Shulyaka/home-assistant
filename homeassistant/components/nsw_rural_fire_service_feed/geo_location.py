@@ -20,7 +20,7 @@ from homeassistant.const import (
     CONF_RADIUS,
     CONF_SCAN_INTERVAL,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     LENGTH_KILOMETERS,
 )
 from homeassistant.core import Event, HomeAssistant, callback
@@ -98,7 +98,7 @@ async def async_setup_platform(
         await manager.async_stop()
 
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_START, start_feed_manager)
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_feed_manager)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_feed_manager)
     hass.async_create_task(manager.async_update())
 
 

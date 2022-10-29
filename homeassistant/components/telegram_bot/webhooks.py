@@ -9,7 +9,7 @@ from telegram.error import TimedOut
 from telegram.ext import Dispatcher, TypeHandler
 
 from homeassistant.components.http import HomeAssistantView
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.helpers.network import get_url
 
 from . import CONF_TRUSTED_NETWORKS, CONF_URL, BaseTelegramBotEntity
@@ -32,7 +32,7 @@ async def async_setup_platform(hass, bot, config):
     if not webhook_registered:
         return False
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, pushbot.deregister_webhook)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, pushbot.deregister_webhook)
     hass.http.register_view(
         PushBotView(hass, bot, pushbot.dispatcher, config[CONF_TRUSTED_NETWORKS])
     )

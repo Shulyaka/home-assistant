@@ -11,7 +11,7 @@ from homeassistant.const import (
     CONF_PASSWORD,
     CONF_PORT,
     CONF_USERNAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant
@@ -123,7 +123,7 @@ def setup(hass: HomeAssistant, config: ConfigType) -> bool:
                 server.stop()
 
             # listen to Home Assistant stop event
-            hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, handle_stop_event)
+            hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, handle_stop_event)
 
         except OSError:
             _LOGGER.error("Binding error occurred while starting EgardiaServer")

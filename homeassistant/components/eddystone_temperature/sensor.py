@@ -20,7 +20,7 @@ from homeassistant.components.sensor import (
 from homeassistant.const import (
     CONF_NAME,
     EVENT_HOMEASSISTANT_START,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     STATE_UNKNOWN,
     TEMP_CELSIUS,
 )
@@ -90,7 +90,7 @@ def setup_platform(
 
         add_entities(devices)
         mon.start()
-        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, monitor_stop)
+        hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, monitor_stop)
         hass.bus.listen_once(EVENT_HOMEASSISTANT_START, monitor_start)
     else:
         _LOGGER.warning("No devices were added")

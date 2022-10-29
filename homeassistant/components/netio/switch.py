@@ -17,7 +17,7 @@ from homeassistant.const import (
     CONF_PASSWORD,
     CONF_PORT,
     CONF_USERNAME,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     STATE_ON,
 )
 from homeassistant.core import HomeAssistant, callback
@@ -83,7 +83,7 @@ def setup_platform(
 
     add_entities(DEVICES[host].entities)
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, dispose)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, dispose)
 
 
 def dispose(event):

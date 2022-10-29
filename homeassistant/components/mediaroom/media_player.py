@@ -25,7 +25,7 @@ from homeassistant.const import (
     CONF_NAME,
     CONF_OPTIMISTIC,
     CONF_TIMEOUT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant, callback
 import homeassistant.helpers.config_validation as cv
@@ -106,7 +106,7 @@ async def async_setup_platform(
                 _LOGGER.debug("Stopping internal pymediaroom discovery")
                 hass.data[DISCOVERY_MEDIAROOM].close()
 
-            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_discovery)
+            hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_discovery)
 
             _LOGGER.debug("Auto discovery installed")
 

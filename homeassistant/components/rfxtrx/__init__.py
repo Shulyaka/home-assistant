@@ -20,7 +20,7 @@ from homeassistant.const import (
     CONF_DEVICES,
     CONF_HOST,
     CONF_PORT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import Event, HomeAssistant, ServiceCall, callback
@@ -271,7 +271,7 @@ async def async_setup_internal(hass: HomeAssistant, entry: ConfigEntry) -> None:
         rfx_object.close_connection()
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _shutdown_rfxtrx)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, _shutdown_rfxtrx)
     )
     hass.data[DOMAIN][DATA_RFXOBJECT] = rfx_object
 

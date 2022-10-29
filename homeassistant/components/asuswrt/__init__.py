@@ -1,7 +1,7 @@
 """Support for ASUSWRT devices."""
 
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP, Platform
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, Platform
 from homeassistant.core import Event, HomeAssistant
 
 from .const import DATA_ASUSWRT, DOMAIN
@@ -23,7 +23,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await router.close()
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, async_close_connection)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, async_close_connection)
     )
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = {DATA_ASUSWRT: router}

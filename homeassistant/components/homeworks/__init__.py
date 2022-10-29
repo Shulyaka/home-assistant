@@ -9,7 +9,7 @@ from homeassistant.const import (
     CONF_ID,
     CONF_NAME,
     CONF_PORT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import HomeAssistant, callback
@@ -83,7 +83,7 @@ def setup(hass: HomeAssistant, base_config: ConfigType) -> bool:
     def cleanup(event):
         controller.close()
 
-    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP, cleanup)
+    hass.bus.listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, cleanup)
 
     dimmers = config[CONF_DIMMERS]
     load_platform(hass, Platform.LIGHT, DOMAIN, {CONF_DIMMERS: dimmers}, base_config)

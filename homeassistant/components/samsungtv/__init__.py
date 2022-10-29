@@ -21,7 +21,7 @@ from homeassistant.const import (
     CONF_NAME,
     CONF_PORT,
     CONF_TOKEN,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     Platform,
 )
 from homeassistant.core import Event, HomeAssistant, callback
@@ -202,7 +202,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         await bridge.async_close_remote()
 
     entry.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, stop_bridge)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, stop_bridge)
     )
 
     await _async_update_ssdp_locations(hass, entry)

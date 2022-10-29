@@ -7,7 +7,7 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.components.conversation.util import create_matcher
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import dispatcher, intent
 import homeassistant.helpers.config_validation as cv
@@ -126,7 +126,7 @@ async def async_setup_entry(hass: HomeAssistant, config: ConfigEntry) -> bool:
     )
 
     config.async_on_unload(
-        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, bot.async_handle_hass_stop)
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, bot.async_handle_hass_stop)
     )
 
     await bot.async_connect()

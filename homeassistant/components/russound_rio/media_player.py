@@ -15,7 +15,7 @@ from homeassistant.const import (
     CONF_HOST,
     CONF_NAME,
     CONF_PORT,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
 )
 from homeassistant.core import HomeAssistant, callback
 import homeassistant.helpers.config_validation as cv
@@ -61,7 +61,7 @@ async def async_setup_platform(
         """Shutdown cleanly when hass stops."""
         hass.loop.create_task(russ.close())
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, on_stop)
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, on_stop)
 
     async_add_entities(devices)
 

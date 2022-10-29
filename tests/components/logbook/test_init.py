@@ -33,7 +33,7 @@ from homeassistant.const import (
     EVENT_CALL_SERVICE,
     EVENT_HOMEASSISTANT_START,
     EVENT_HOMEASSISTANT_STARTED,
-    EVENT_HOMEASSISTANT_STOP,
+    EVENT_HOMEASSISTANT_STOP_INTEGRATIONS,
     EVENT_LOGBOOK_ENTRY,
     STATE_OFF,
     STATE_ON,
@@ -220,7 +220,7 @@ async def test_home_assistant_start_stop_not_grouped(hass_):
     entries = mock_humanify(
         hass_,
         (
-            MockRow(EVENT_HOMEASSISTANT_STOP),
+            MockRow(EVENT_HOMEASSISTANT_STOP_INTEGRATIONS),
             MockRow(EVENT_HOMEASSISTANT_START),
         ),
     )

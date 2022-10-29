@@ -12,7 +12,7 @@ from devolo_home_control_api.mydevolo import Mydevolo
 
 from homeassistant.components import zeroconf
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, EVENT_HOMEASSISTANT_STOP
+from homeassistant.const import CONF_PASSWORD, CONF_USERNAME, EVENT_HOMEASSISTANT_STOP_INTEGRATIONS
 from homeassistant.core import Event, HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers.device_registry import DeviceEntry
@@ -68,12 +68,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     def shutdown(event: Event) -> None:
         for gateway in hass.data[DOMAIN][entry.entry_id]["gateways"]:
             gateway.websocket_disconnect(
-                f"websocket disconnect requested by {EVENT_HOMEASSISTANT_STOP}"
+                f"websocket disconnect requested by {EVENT_HOMEASSISTANT_STOP_INTEGRATIONS}"
             )
 
-    # Listen when EVENT_HOMEASSISTANT_STOP is fired
+    # Listen when EVENT_HOMEASSISTANT_STOP_INTEGRATIONS is fired
     hass.data[DOMAIN][entry.entry_id]["listener"] = hass.bus.async_listen_once(
-        EVENT_HOMEASSISTANT_STOP, shutdown
+        EVENT_HOMEASSISTANT_STOP_INTEGRATIONS, shutdown
     )
 
     return True
