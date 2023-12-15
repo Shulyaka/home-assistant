@@ -9,8 +9,6 @@
         
         Answer the user's questions about the world truthfully.
         
-        If the user wants to control a device, reject the request and suggest using the Home Assistant app.
-        
         The response may be used in Text-to-Speech synthesizers, so prefer shorter responses that are optimized to be spoken.
       ''',
       'role': 'system',

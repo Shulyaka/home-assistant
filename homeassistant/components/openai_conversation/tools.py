@@ -2,16 +2,27 @@
 
 import json
 import logging
+from asyncio import create_task, shield, timeout
 from typing import Any
 
 from homeassistant.components.conversation import DOMAIN as CONVERSATION_DOMAIN
-from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers import entity_registry as er, intent, template
+from homeassistant.components.homeassistant.exposed_entities import async_should_expose
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers import (
+    config_validation as cv,
+    entity_registry as er,
+    intent,
+    template,
+)
+from homeassistant.helpers.script import Script
 from homeassistant.util import dt as dt_util
+from homeassistant.util.yaml.loader import parse_yaml
 
-from .const import EXPORTED_ATTRIBUTES
+from .const import DOMAIN, EXPORTED_ATTRIBUTES
 
 _LOGGER = logging.getLogger(__name__)
+
+SCRIPT_TIMEOUT = 3
 
 TOOLS = [
     {
@@ -46,22 +57,43 @@ TOOLS = [
                 "required": [],
             },
         },
-    }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "homeassistant_script",
+            "description": "Execute any script in this Home Assistant instance",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "script": {
+                        "type": "string",
+                        "description": "The script in Home Assistant yaml script format. This is the same format as the action part of a HA automation. Don't use milliseconds for delay time.",
+                    }
+                },
+                "required": ["script"],
+            },
+        },
+    },
 ]
 
 
-@callback
-def call_function(hass: HomeAssistant, function_name: str, function_args: str) -> str:
+async def async_call_function(
+    hass: HomeAssistant, function_name: str, function_args: str
+) -> str:
     """Wrap the function call to parse the arguments and handle exceptions."""
 
-    available_functions = {"entity_registry_inquiry": entity_registry_inquiry}
+    available_functions = {
+        "entity_registry_inquiry": entity_registry_inquiry,
+        "homeassistant_script": homeassistant_script,
+    }
 
     _LOGGER.debug("Function call: %s(%s)", function_name, function_args)
 
     try:
         function_to_call = available_functions[function_name]
         parsed_args = json.loads(function_args)
-        response = function_to_call(hass, **parsed_args)
+        response = await function_to_call(hass, **parsed_args)
         response_str = json.dumps(response)
 
     except Exception as e:  # pylint: disable=broad-exception-caught
@@ -75,8 +107,7 @@ def call_function(hass: HomeAssistant, function_name: str, function_args: str) -
     return response_str
 
 
-@callback
-def entity_registry_inquiry(
+async def entity_registry_inquiry(
     hass: HomeAssistant,
     name: str | None = None,
     area: str | None = None,
@@ -141,3 +172,53 @@ def entity_registry_inquiry(
             " if the expected entities were not found."
         )
     return {"error": error_text}
+
+
+async def homeassistant_script(
+    hass: HomeAssistant,
+    script: Any,
+) -> dict:
+    """Execute a script in Home Assistant."""
+
+    if isinstance(script, str):
+        script = parse_yaml(script)
+
+    if isinstance(script, list) and len(script) == 1:
+        script = script[0]
+
+    try:
+        # check if AI decided to list actions at top level or inside a sequence key
+        action = cv.determine_script_action(script)
+        if "sequence" in script:
+            raise RuntimeError(
+                f'The "{action}" action should be inside the "sequence" list, please rewrite the script'
+            )
+        sequence = [script]
+    except ValueError:
+        if "trigger" in script:
+            raise RuntimeError("This is a script, not an automation. Please rewrite without triggers.")
+        sequence = script["sequence"]
+
+    _LOGGER.debug("Parsed sequence: %s", sequence)
+
+    script = Script(hass, sequence=sequence, name="convesation_scipt", domain=DOMAIN)
+
+    for entity_id in script.referenced_entities:
+        if not async_should_expose(hass, CONVERSATION_DOMAIN, entity_id):
+            raise RuntimeError(
+                f"Referencing unknown or not exposed entity {entity_id}, please rewrite the script"
+            )
+
+    try:
+        async with timeout(SCRIPT_TIMEOUT):
+            result = await shield(create_task(script.async_run()))
+    except TimeoutError:
+        return {
+            "success": True,
+            "message": "The script is scheduled to execute in background",
+        }
+
+    if result.service_response:
+        return {"service_response": result.service_response}
+
+    return {"success": True}
