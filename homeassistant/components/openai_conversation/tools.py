@@ -7,7 +7,7 @@ from typing import Any
 
 from homeassistant.components.conversation import DOMAIN as CONVERSATION_DOMAIN
 from homeassistant.components.homeassistant.exposed_entities import async_should_expose
-from homeassistant.core import HomeAssistant
+from homeassistant.core import Context, HomeAssistant
 from homeassistant.helpers import (
     config_validation as cv,
     entity_registry as er,
@@ -79,7 +79,7 @@ TOOLS = [
 
 
 async def async_call_function(
-    hass: HomeAssistant, function_name: str, function_args: str
+    hass: HomeAssistant, context: Context, function_name: str, function_args: str
 ) -> str:
     """Wrap the function call to parse the arguments and handle exceptions."""
 
@@ -93,7 +93,7 @@ async def async_call_function(
     try:
         function_to_call = available_functions[function_name]
         parsed_args = json.loads(function_args)
-        response = await function_to_call(hass, **parsed_args)
+        response = await function_to_call(hass, context, **parsed_args)
         response_str = json.dumps(response)
 
     except Exception as e:  # pylint: disable=broad-exception-caught
@@ -109,6 +109,7 @@ async def async_call_function(
 
 async def entity_registry_inquiry(
     hass: HomeAssistant,
+    context: Context,
     name: str | None = None,
     area: str | None = None,
     domain: str | None = None,
@@ -176,6 +177,7 @@ async def entity_registry_inquiry(
 
 async def homeassistant_script(
     hass: HomeAssistant,
+    context: Context,
     script: Any,
 ) -> dict:
     """Execute a script in Home Assistant."""
@@ -196,7 +198,9 @@ async def homeassistant_script(
         sequence = [script]
     except ValueError:
         if "trigger" in script:
-            raise RuntimeError("This is a script, not an automation. Please rewrite without triggers.")
+            raise RuntimeError(
+                "This is a script, not an automation. Please rewrite without triggers."
+            )
         sequence = script["sequence"]
 
     _LOGGER.debug("Parsed sequence: %s", sequence)
@@ -211,7 +215,7 @@ async def homeassistant_script(
 
     try:
         async with timeout(SCRIPT_TIMEOUT):
-            result = await shield(create_task(script.async_run()))
+            result = await shield(create_task(script.async_run(context=context)))
     except TimeoutError:
         return {
             "success": True,
