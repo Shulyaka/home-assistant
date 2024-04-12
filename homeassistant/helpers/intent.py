@@ -24,7 +24,7 @@ from homeassistant.core import Context, HomeAssistant, State, callback
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.loader import bind_hass
 
-from . import area_registry, config_validation as cv, device_registry, entity_registry
+from . import area_registry, config_validation as cv, device_registry, entity_registry, llm
 
 _LOGGER = logging.getLogger(__name__)
 _SlotsType = dict[str, Any]
@@ -44,6 +44,8 @@ DATA_KEY = "intent"
 SPEECH_TYPE_PLAIN = "plain"
 SPEECH_TYPE_SSML = "ssml"
 
+LLM_SKIP_AUTO_ADD_TOOL = [INTENT_NEVERMIND]
+
 
 @callback
 @bind_hass
@@ -61,6 +63,10 @@ def async_register(hass: HomeAssistant, handler: IntentHandler) -> None:
 
     intents[handler.intent_type] = handler
 
+    if handler.intent_type not in LLM_SKIP_AUTO_ADD_TOOL:
+        llm_tool = llm.IntentTool(handler.intent_type, handler.slot_schema)
+        llm.async_register_tool(hass, llm_tool)
+
 
 @callback
 @bind_hass
@@ -68,6 +74,8 @@ def async_remove(hass: HomeAssistant, intent_type: str) -> None:
     """Remove an intent from Home Assistant."""
     if (intents := hass.data.get(DATA_KEY)) is None:
         return
+
+    llm.async_remove_tool(hass, intent_type)
 
     intents.pop(intent_type, None)
 
