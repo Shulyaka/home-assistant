@@ -57,6 +57,8 @@ ATTR_GLASSES = "glasses"
 ATTR_MOTION: Final = "motion"
 ATTR_TOTAL_FACES = "total_faces"
 
+LLM_ATTRIBUTES = [ATTR_FACES, ATTR_TOTAL_FACES]
+
 CONF_CONFIDENCE = "confidence"
 
 DEFAULT_TIMEOUT = 10
