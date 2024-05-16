@@ -19,6 +19,8 @@ ATTR_AVAILABLE_TONES: Final = "available_tones"
 ATTR_DURATION: Final = "duration"
 ATTR_VOLUME_LEVEL: Final = "volume_level"
 
+LLM_ATTRIBUTES = [ATTR_AVAILABLE_TONES]
+
 
 class SirenEntityFeature(IntFlag):
     """Supported features of the siren entity."""

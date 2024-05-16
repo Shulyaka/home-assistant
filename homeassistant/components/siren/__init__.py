@@ -37,6 +37,7 @@ from .const import (  # noqa: F401
     ATTR_TONE,
     ATTR_VOLUME_LEVEL,
     DOMAIN,
+    LLM_ATTRIBUTES,
     SirenEntityFeature,
 )
 
