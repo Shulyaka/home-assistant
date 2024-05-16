@@ -239,6 +239,21 @@ COLOR_GROUP = "Color descriptors"
 
 LIGHT_PROFILES_FILE = "light_profiles.csv"
 
+LLM_ATTRIBUTES = [
+    ATTR_BRIGHTNESS,
+    ATTR_COLOR_MODE,
+    ATTR_SUPPORTED_COLOR_MODES,
+    ATTR_EFFECT_LIST,
+    ATTR_EFFECT,
+    ATTR_RGB_COLOR,
+    ATTR_RGBW_COLOR,
+    ATTR_RGBWW_COLOR,
+    ATTR_XY_COLOR,
+    ATTR_HS_COLOR,
+    ATTR_COLOR_TEMP,
+    ATTR_COLOR_TEMP_KELVIN,
+]
+
 # Service call validation schemas
 VALID_TRANSITION = vol.All(vol.Coerce(float), vol.Clamp(min=0, max=6553))
 VALID_BRIGHTNESS = vol.All(vol.Coerce(int), vol.Clamp(min=0, max=255))

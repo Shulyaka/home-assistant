@@ -51,7 +51,13 @@ async def test_intent_tool(hass: HomeAssistant) -> None:
 
     test_context = Context()
     intent_response = intent.IntentResponse("*")
-    intent_response.matched_states = [State("light.matched", "on")]
+    intent_response.matched_states = [
+        State(
+            "light.matched",
+            "on",
+            attributes={"brightness": 50, "unexported_attr": "value"},
+        )
+    ]
     intent_response.unmatched_states = [State("light.unmatched", "on")]
     tool_input = llm.ToolInput(
         tool_name="test_intent",
@@ -91,6 +97,9 @@ async def test_intent_tool(hass: HomeAssistant) -> None:
                     "last_changed": "0 seconds ago",
                     "name": "matched",
                     "state": "on",
+                    "attributes": {
+                        "brightness": 50,
+                    },
                 },
             ],
             "success": [],
