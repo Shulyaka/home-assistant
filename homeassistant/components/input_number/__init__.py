@@ -45,6 +45,12 @@ ATTR_MIN = "min"
 ATTR_MAX = "max"
 ATTR_STEP = "step"
 
+LLM_ATTRIBUTES = [
+    ATTR_MIN,
+    ATTR_MAX,
+    ATTR_STEP,
+]
+
 SERVICE_SET_VALUE = "set_value"
 SERVICE_INCREMENT = "increment"
 SERVICE_DECREMENT = "decrement"
