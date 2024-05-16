@@ -37,6 +37,8 @@ from homeassistant.helpers.typing import ConfigType
 
 _LOGGER = logging.getLogger(__name__)
 
+LLM_ATTRIBUTES = [ATTR_OPTIONS]
+
 DOMAIN = "input_select"
 
 CONF_INITIAL = "initial"
