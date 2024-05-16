@@ -148,6 +148,8 @@ ATTR_CURRENT_TILT_POSITION = "current_tilt_position"
 ATTR_POSITION = "position"
 ATTR_TILT_POSITION = "tilt_position"
 
+LLM_ATTRIBUTES = [ATTR_CURRENT_POSITION, ATTR_CURRENT_TILT_POSITION]
+
 
 @bind_hass
 def is_closed(hass: HomeAssistant, entity_id: str) -> bool:
