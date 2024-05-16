@@ -85,8 +85,24 @@ async def test_intent_tool(hass: HomeAssistant) -> None:
         "card": {},
         "data": {
             "failed": [],
+            "matched_states": [
+                {
+                    "entity_id": "light.matched",
+                    "last_changed": "0 seconds ago",
+                    "name": "matched",
+                    "state": "on",
+                },
+            ],
             "success": [],
             "targets": [],
+            "unmatched_states": [
+                {
+                    "entity_id": "light.unmatched",
+                    "last_changed": "0 seconds ago",
+                    "name": "unmatched",
+                    "state": "on",
+                },
+            ],
         },
         "language": "*",
         "response_type": "action_done",

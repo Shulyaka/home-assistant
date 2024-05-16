@@ -5,6 +5,8 @@ from __future__ import annotations
 from abc import abstractmethod
 from collections.abc import Iterable
 from dataclasses import dataclass
+from functools import cache
+import importlib
 import logging
 from typing import Any
 
@@ -12,17 +14,18 @@ import voluptuous as vol
 
 from homeassistant.components.climate.intent import INTENT_GET_TEMPERATURE
 from homeassistant.components.weather.intent import INTENT_GET_WEATHER
-from homeassistant.core import Context, HomeAssistant, callback
+from homeassistant.const import ATTR_DEVICE_CLASS
+from homeassistant.core import Context, HomeAssistant, State, callback, split_entity_id
 from homeassistant.exceptions import HomeAssistantError
+from homeassistant.util import dt as dt_util
 from homeassistant.util.json import JsonObjectType
 
-from . import intent
+from . import entity_registry, intent, template
 
 _LOGGER = logging.getLogger(__name__)
 
 IGNORE_INTENTS = [
     intent.INTENT_NEVERMIND,
-    intent.INTENT_GET_STATE,
     INTENT_GET_WEATHER,
     INTENT_GET_TEMPERATURE,
 ]
@@ -90,6 +93,50 @@ async def async_call_tool(hass: HomeAssistant, tool_input: ToolInput) -> JsonObj
     return await tool.async_call(hass, _tool_input)
 
 
+COMMON_LLM_ATTRIBUTES = [ATTR_DEVICE_CLASS]
+
+
+@cache
+def _domain_llm_attributes(domain: str) -> list[str]:
+    """Return a cached list of attributes to be included."""
+    module = importlib.import_module(f"homeassistant.components.{domain}")
+    return getattr(module, "LLM_ATTRIBUTES", [])
+
+
+def _format_state(hass: HomeAssistant, entity_state: State) -> dict[str, Any]:
+    """Format state for better understanding by a LLM."""
+    er = entity_registry.async_get(hass)
+    entity_state = template.TemplateState(hass, entity_state, collect=False)
+
+    result: dict[str, Any] = {
+        "name": entity_state.name,
+        "entity_id": entity_state.entity_id,
+        "state": entity_state.state_with_unit,
+        "last_changed": dt_util.get_age(entity_state.last_changed) + " ago",
+    }
+
+    if registry_entry := er.async_get(entity_state.entity_id):
+        if area_name := template.area_name(hass, entity_state.entity_id):
+            result["area"] = area_name
+        if floor_name := template.floor_name(hass, entity_state.entity_id):
+            result["floor"] = floor_name
+        if len(registry_entry.aliases):
+            result["aliases"] = list(registry_entry.aliases)
+
+    domain = split_entity_id(entity_state.entity_id)[0]
+    attributes: dict[str, Any] = {}
+    for attribute, value in entity_state.attributes.items():
+        if (
+            attribute in _domain_llm_attributes(domain)
+            or attribute in COMMON_LLM_ATTRIBUTES
+        ):
+            attributes[attribute] = value
+    if attributes:
+        result["attributes"] = attributes
+
+    return result
+
+
 class IntentTool(Tool):
     """LLM Tool representing an Intent."""
 
@@ -119,4 +166,13 @@ class IntentTool(Tool):
             tool_input.language,
             tool_input.assistant,
         )
-        return intent_response.as_dict()
+        response = intent_response.as_dict()
+        if intent_response.matched_states:
+            response["data"]["matched_states"] = [
+                _format_state(hass, state) for state in intent_response.matched_states
+            ]
+        if intent_response.unmatched_states:
+            response["data"]["unmatched_states"] = [
+                _format_state(hass, state) for state in intent_response.unmatched_states
+            ]
+        return response
