@@ -16,6 +16,7 @@ from homeassistant.helpers.typing import ConfigType
 from . import sensor as sensor_pre_import  # noqa: F401
 from .const import (  # noqa: F401  # noqa: F401
     DOMAIN,
+    LLM_ATTRIBUTES,
     STATE_ABOVE_HORIZON,
     STATE_BELOW_HORIZON,
 )
