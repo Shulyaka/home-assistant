@@ -49,6 +49,14 @@ ATTR_FAN_SPEED_LIST = "fan_speed_list"
 ATTR_PARAMS = "params"
 ATTR_STATUS = "status"
 
+LLM_ATTRIBUTES = [
+    ATTR_BATTERY_LEVEL,
+    ATTR_CLEANED_AREA,
+    ATTR_FAN_SPEED,
+    ATTR_FAN_SPEED_LIST,
+    ATTR_STATUS,
+]
+
 SERVICE_CLEAN_SPOT = "clean_spot"
 SERVICE_LOCATE = "locate"
 SERVICE_RETURN_TO_BASE = "return_to_base"
