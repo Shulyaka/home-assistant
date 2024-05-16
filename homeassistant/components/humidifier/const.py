@@ -3,6 +3,7 @@
 from enum import IntFlag, StrEnum
 from functools import partial
 
+from homeassistant.const import ATTR_MODE
 from homeassistant.helpers.deprecation import (
     DeprecatedConstant,
     DeprecatedConstantEnum,
@@ -37,6 +38,14 @@ ATTR_CURRENT_HUMIDITY = "current_humidity"
 ATTR_HUMIDITY = "humidity"
 ATTR_MAX_HUMIDITY = "max_humidity"
 ATTR_MIN_HUMIDITY = "min_humidity"
+
+LLM_ATTRIBUTES = [
+    ATTR_ACTION,
+    ATTR_AVAILABLE_MODES,
+    ATTR_MODE,
+    ATTR_CURRENT_HUMIDITY,
+    ATTR_HUMIDITY,
+]
 
 DEFAULT_MIN_HUMIDITY = 0
 DEFAULT_MAX_HUMIDITY = 100
