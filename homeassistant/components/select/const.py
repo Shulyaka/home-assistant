@@ -6,6 +6,8 @@ ATTR_CYCLE = "cycle"
 ATTR_OPTIONS = "options"
 ATTR_OPTION = "option"
 
+LLM_ATTRIBUTES = [ATTR_OPTIONS]
+
 CONF_CYCLE = "cycle"
 CONF_OPTION = "option"
 
