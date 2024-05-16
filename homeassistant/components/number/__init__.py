@@ -38,6 +38,7 @@ from .const import (  # noqa: F401
     DEFAULT_STEP,
     DEVICE_CLASSES_SCHEMA,
     DOMAIN,
+    LLM_ATTRIBUTES,
     SERVICE_SET_VALUE,
     UNIT_CONVERTERS,
     NumberDeviceClass,
