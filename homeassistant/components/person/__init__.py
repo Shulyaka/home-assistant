@@ -63,6 +63,13 @@ ATTR_SOURCE = "source"
 ATTR_USER_ID = "user_id"
 ATTR_DEVICE_TRACKERS = "device_trackers"
 
+LLM_ATTRIBUTES = [
+    ATTR_LATITUDE,
+    ATTR_LONGITUDE,
+    ATTR_SOURCE,
+    ATTR_USER_ID,
+]
+
 CONF_DEVICE_TRACKERS = "device_trackers"
 CONF_USER_ID = "user_id"
 CONF_PICTURE = "picture"
