@@ -12,7 +12,6 @@ from typing import Any
 
 import voluptuous as vol
 
-from homeassistant.components.weather.intent import INTENT_GET_WEATHER
 from homeassistant.const import ATTR_DEVICE_CLASS
 from homeassistant.core import Context, HomeAssistant, State, callback, split_entity_id
 from homeassistant.exceptions import HomeAssistantError
@@ -23,10 +22,7 @@ from . import entity_registry, intent, template
 
 _LOGGER = logging.getLogger(__name__)
 
-IGNORE_INTENTS = [
-    intent.INTENT_NEVERMIND,
-    INTENT_GET_WEATHER,
-]
+IGNORE_INTENTS = [intent.INTENT_NEVERMIND]
 
 
 @dataclass(slots=True)
