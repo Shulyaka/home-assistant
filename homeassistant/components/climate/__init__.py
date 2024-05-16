@@ -93,6 +93,7 @@ from .const import (  # noqa: F401
     FAN_ON,
     FAN_TOP,
     HVAC_MODES,
+    LLM_ATTRIBUTES,
     PRESET_ACTIVITY,
     PRESET_AWAY,
     PRESET_BOOST,
