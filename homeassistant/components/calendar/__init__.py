@@ -69,6 +69,22 @@ from .const import (
     CalendarEntityFeature,
 )
 
+ATTR_MESSAGE = "message"
+ATTR_ALL_DAY = "all_day"
+ATTR_START_TIME = "start_time"
+ATTR_END_TIME = "end_time"
+ATTR_LOCATION = "location"
+ATTR_DESCRIPTION = "description"
+
+LLM_ATTRIBUTES = [
+    ATTR_MESSAGE,
+    ATTR_ALL_DAY,
+    ATTR_START_TIME,
+    ATTR_END_TIME,
+    ATTR_LOCATION,
+    ATTR_DESCRIPTION,
+]
+
 # mypy: disallow-any-generics
 
 _LOGGER = logging.getLogger(__name__)
@@ -513,12 +529,12 @@ class CalendarEntity(Entity):
             return None
 
         return {
-            "message": event.summary,
-            "all_day": event.all_day,
-            "start_time": event.start_datetime_local.strftime(DATE_STR_FORMAT),
-            "end_time": event.end_datetime_local.strftime(DATE_STR_FORMAT),
-            "location": event.location if event.location else "",
-            "description": event.description if event.description else "",
+            ATTR_MESSAGE: event.summary,
+            ATTR_ALL_DAY: event.all_day,
+            ATTR_START_TIME: event.start_datetime_local.strftime(DATE_STR_FORMAT),
+            ATTR_END_TIME: event.end_datetime_local.strftime(DATE_STR_FORMAT),
+            ATTR_LOCATION: event.location if event.location else "",
+            ATTR_DESCRIPTION: event.description if event.description else "",
         }
 
     @final
