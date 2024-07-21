@@ -7,7 +7,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from decimal import Decimal
 from enum import Enum
-from functools import cache, partial
+from functools import cache
 from typing import Any
 
 import slugify as unicode_slug
@@ -288,9 +288,14 @@ class AssistAPI(API):
             id=LLM_API_ASSIST,
             name="Assist",
         )
-        self.cached_slugify = cache(
-            partial(unicode_slug.slugify, separator="_", lowercase=False)
-        )
+
+        def slugify(text: str) -> str:
+            result = unicode_slug.slugify(text, separator="_", lowercase=False)
+            if result[0].isdigit():
+                result = "_" + result
+            return result
+
+        self.cached_slugify = cache(slugify)
 
     async def async_get_api_instance(self, llm_context: LLMContext) -> APIInstance:
         """Return the instance of the API."""
@@ -416,7 +421,13 @@ class AssistAPI(API):
                 ):
                     continue
 
-                tools.append(ScriptTool(self.hass, state.entity_id))
+                tools.append(
+                    ScriptTool(
+                        self.hass,
+                        self.cached_slugify(split_entity_id(state.entity_id)[1]),
+                        state.entity_id,
+                    )
+                )
 
         return tools
 
@@ -611,13 +622,15 @@ class ScriptTool(Tool):
     def __init__(
         self,
         hass: HomeAssistant,
+        name: str,
         script_entity_id: str,
     ) -> None:
         """Init the class."""
         entity_registry = er.async_get(hass)
 
-        self.name = split_entity_id(script_entity_id)[1]
+        self.name = name
         self.parameters = vol.Schema({})
+        self._script_entity_id = script_entity_id
         entity_entry = entity_registry.async_get(script_entity_id)
         if entity_entry and entity_entry.unique_id:
             parameters_cache = hass.data.get(SCRIPT_PARAMETERS_CACHE)
@@ -717,7 +730,7 @@ class ScriptTool(Tool):
             SCRIPT_DOMAIN,
             SERVICE_TURN_ON,
             {
-                ATTR_ENTITY_ID: SCRIPT_DOMAIN + "." + self.name,
+                ATTR_ENTITY_ID: self._script_entity_id,
                 ATTR_VARIABLES: tool_input.tool_args,
             },
             context=llm_context.context,
