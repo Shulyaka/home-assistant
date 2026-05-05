@@ -120,11 +120,7 @@ async def test_tts(
 
 @pytest.mark.parametrize(
     ("preferred_format", "expected_response_format"),
-    [
-        ("ogg", "opus"),
-        ("oga", "opus"),
-        ("mp3", "mp3"),
-    ],
+    [("mp3", "mp3")],
 )
 @pytest.mark.usefixtures("mock_init_component")
 async def test_tts_preferred_format(
@@ -165,29 +161,41 @@ async def test_tts_preferred_format(
     )
 
 
+@pytest.mark.parametrize(
+    ("preferred_format", "expected_format", "expected_response_format"),
+    [
+        ("ogg", "ogg", "opus"),
+        ("oga", "oga", "opus"),
+        ("raw", "pcm", "pcm"),
+        ("unsupported", "mp3", "mp3"),
+    ],
+)
 @pytest.mark.usefixtures("mock_init_component")
-async def test_tts_raw_preferred_format_returns_pcm(
+async def test_tts_preferred_format_returns_expected_format(
     hass: HomeAssistant,
     mock_create_speech: MagicMock,
+    preferred_format: str,
+    expected_format: str,
+    expected_response_format: str,
 ) -> None:
-    """Test raw preferred format is returned as pcm."""
+    """Test preferred format aliases and fallback return the expected format."""
     tts_entity = hass.data[tts.DOMAIN].get_entity("tts.openai_tts")
     mock_create_speech.return_value = [b"mock audio data"]
 
     result = await tts_entity.async_get_tts_audio(
         "There is a person at the front door.",
         "en-US",
-        {tts.ATTR_PREFERRED_FORMAT: "raw", tts.ATTR_VOICE: "marin"},
+        {tts.ATTR_PREFERRED_FORMAT: preferred_format, tts.ATTR_VOICE: "marin"},
     )
 
-    assert result == ("pcm", b"mock audio data")
+    assert result == (expected_format, b"mock audio data")
     mock_create_speech.assert_called_once_with(
         model="gpt-4o-mini-tts",
         voice="marin",
         input="There is a person at the front door.",
         instructions="",
         speed=1.0,
-        response_format="pcm",
+        response_format=expected_response_format,
     )
 
 
